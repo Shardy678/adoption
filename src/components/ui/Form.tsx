@@ -1,7 +1,5 @@
 import { Button } from './button'
-import { Input } from './input'
 import TypographyH2 from './TypographyH2'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 
 export interface FormProps
