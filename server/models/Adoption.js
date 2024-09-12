@@ -1,4 +1,6 @@
-const AdoptionSchema = new mongoose.Schema({
+const mongoose = require('mongoose')
+
+const adoptionSchema = new mongoose.Schema({
   adopter: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Adopter',
@@ -26,4 +28,5 @@ const AdoptionSchema = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model('Adoption', AdoptionSchema)
+const Adoption = mongoose.model('Adoption', adoptionSchema)
+module.exports = Adoption
