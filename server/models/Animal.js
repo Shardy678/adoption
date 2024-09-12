@@ -7,15 +7,15 @@ const animalSchema = new mongoose.Schema({
   species: { type: String, required: true },
 
   // Health
-  vaccinated: { type: Boolean, required: true },
-  sterilized: { type: Boolean, required: true },
-  healthy: { type: Boolean, required: true },
+  vaccinated: { type: Boolean, required: true, default: false },
+  sterilized: { type: Boolean, required: true, default: false },
+  healthy: { type: Boolean, required: true, default: true },
 
-  // Compatiblity
-  compatibleWithCats: { type: Boolean, required: true },
-  compatibleWithDogs: { type: Boolean, required: true },
-  compatibleWithPeople: { type: Boolean, required: true },
-  compatibleWithChildren: { type: Boolean, required: true },
+  // Compatibility
+  compatibleWithCats: { type: Boolean, required: true, default: true },
+  compatibleWithDogs: { type: Boolean, required: true, default: true },
+  compatibleWithPeople: { type: Boolean, required: true, default: true },
+  compatibleWithChildren: { type: Boolean, required: true, default: true },
 
   // Size
   size: {
@@ -28,10 +28,11 @@ const animalSchema = new mongoose.Schema({
       'Очень маленький',
     ],
     required: true,
+    default: 'Средний',
   },
 
   // Status
-  available: { type: Boolean, required: true },
+  available: { type: Boolean, required: true, default: true },
 })
 
 const Animal = mongoose.model('Animal', animalSchema)
