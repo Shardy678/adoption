@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { Button } from './components/ui/button'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Cat } from '@phosphor-icons/react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  interface Kitten {
+    name: string
+    breed: string
+    age: number
+  }
 
+  const [kittens, setKittens] = useState<Kitten[] | null>(null) // Kitten can be null initially
+  const [loading, setLoading] = useState<boolean>(true) // loading is a boolean
+  const [error, setError] = useState<string>('') // error is a string
+
+  const fetchKittensData = async (): Promise<void> => {
+    try {
+      const response = await axios.get<Kitten[]>(
+        'http://localhost:3000/kittens'
+      )
+      const kittensData = response.data
+      setKittens(kittensData)
+      setLoading(false)
+    } catch (err) {
+      setError('Error fetching kittens data')
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchKittensData()
+  }, [])
+
+  // Render a loading state if the data is being fetched
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  // Render an error message if there was an issue fetching data
+  if (error) {
+    return <div>{error}</div>
+  }
+
+  // Render the kitten data in cards if it was fetched successfully
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="text-3xl font-bold underline">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Button>Click me</Button>
+      {kittens &&
+        kittens.map((kitten, index) => (
+          <Card key={index}>
+            <CardHeader>
+              <CardTitle className="flex flex-row">
+                {kitten.name} <Cat className="ml-2" size={32} weight="bold" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <h1>Breed: {kitten.breed}</h1>
+              <h1>Age: {kitten.age}</h1>
+            </CardContent>
+          </Card>
+        ))}
     </>
   )
 }
