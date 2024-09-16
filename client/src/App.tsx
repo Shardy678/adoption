@@ -4,26 +4,21 @@ import axios from 'axios'
 import { Animal } from './types'
 import AnimalCard from '@/components/ui/AnimalCard'
 import Navbar from '@/components/ui/Navbar'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from './components/ui/drawer'
-import { Button } from './components/ui/button'
+
 function App() {
   const [animals, setAnimals] = useState<Animal[] | null>(null)
+  const [filteredAnimals, setFilteredAnimals] = useState<Animal[] | null>(null)
   const [error, setError] = useState('')
+
+  const [selectedSpecies, setSelectedSpecies] = useState<string | null>(null)
+  const [selectedSex, setSelectedSex] = useState<string | null>(null)
 
   const fetchAnimals = async () => {
     try {
       const response = await axios.get('http://localhost:3000/animals')
-      const animalData = response.data
+      const animalData: Animal[] = response.data
       setAnimals(animalData)
+      setFilteredAnimals(animalData)
     } catch (error) {
       setError('Error fetching animals')
     }
@@ -33,6 +28,32 @@ function App() {
     fetchAnimals()
   }, [])
 
+  useEffect(() => {
+    if (animals) {
+      let filtered = animals
+
+      if (selectedSpecies) {
+        filtered = filtered.filter(
+          (animal) => animal.species === selectedSpecies
+        )
+      }
+
+      if (selectedSex) {
+        filtered = filtered.filter((animal) => animal.sex === selectedSex)
+      }
+
+      setFilteredAnimals(filtered)
+    }
+  }, [selectedSpecies, selectedSex])
+
+  const handleSpeciesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSpecies(e.target.value || null)
+  }
+
+  const handleSexChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSex(e.target.value || null)
+  }
+
   if (error) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -41,25 +62,33 @@ function App() {
     )
   }
 
-  const cats = animals?.filter((animal) => animal.species === 'Кошка')
-  const dogs = animals?.filter((animal) => animal.species === 'Собака')
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-grow flex flex-col items-center mt-8">
-        <h2 className="text-2xl font-bold mb-4">Кошки</h2>
+      <div className="flex-grow flex flex-col items-center mt-24">
+        <div>
+          <label>Вид:</label>
+          <select onChange={handleSpeciesChange} value={selectedSpecies || ''}>
+            <option value="">Все</option>
+            <option value="Собака">Собака</option>
+            <option value="Кошка">Кошка</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Пол:</label>
+          <select onChange={handleSexChange} value={selectedSex || ''}>
+            <option value="">Все</option>
+            <option value="male">Самец</option>
+            <option value="female">Самка</option>
+          </select>
+        </div>
+
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-          {cats ? (
-            cats.map((cat) => <AnimalCard key={cat._id} animal={cat} />)
-          ) : (
-            <div>Loading...</div>
-          )}
-        </ul>
-        <h2 className="text-2xl font-bold mb-4">Собаки</h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {dogs ? (
-            dogs.map((dog) => <AnimalCard key={dog._id} animal={dog} />)
+          {filteredAnimals ? (
+            filteredAnimals.map((animal) => (
+              <AnimalCard key={animal._id} animal={animal} />
+            ))
           ) : (
             <div>Loading...</div>
           )}
@@ -68,4 +97,5 @@ function App() {
     </div>
   )
 }
+
 export default App

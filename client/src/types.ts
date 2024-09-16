@@ -4,6 +4,7 @@ export interface Animal {
 
   name: string
   age: number
+  sex: string
   breed: string
   species: string
 
