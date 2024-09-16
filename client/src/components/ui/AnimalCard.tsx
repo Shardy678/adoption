@@ -1,27 +1,41 @@
+import { useNavigate } from 'react-router-dom'
 import { Animal } from '../../types'
-
+import { AspectRatio } from './aspect-ratio'
+import { Card, CardContent, CardHeader } from './card'
+import { CalendarHeart, PawPrint } from '@phosphor-icons/react'
 interface AnimalCardProps {
   animal: Animal
 }
 
 const AnimalCard: React.FC<AnimalCardProps> = ({ animal }) => {
+  const navigate = useNavigate()
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    navigate(`/animals/${animal._id}`, { state: { animal } })
+  }
   return (
-    <li>
-      <h2 className="font-bold">{animal.name}</h2>
-      <p>Age: {animal.age}</p>
-      <p>Breed: {animal.breed}</p>
-      <p>Species: {animal.species}</p>
-      <p>Vaccinated: {animal.vaccinated ? 'Yes' : 'No'}</p>
-      <p>Sterilized: {animal.sterilized ? 'Yes' : 'No'}</p>
-      <p>Healthy: {animal.healthy ? 'Yes' : 'No'}</p>
-      <p>Size: {animal.size}</p>
-      <p>Available: {animal.available ? 'Yes' : 'No'}</p>
-      <h4 className="font-bold">Compatibility:</h4>
-      <p>With Cats: {animal.compatibleWithCats ? 'Yes' : 'No'}</p>
-      <p>With Dogs: {animal.compatibleWithDogs ? 'Yes' : 'No'}</p>
-      <p>With People: {animal.compatibleWithPeople ? 'Yes' : 'No'}</p>
-      <p>With Children: {animal.compatibleWithChildren ? 'Yes' : 'No'}</p>
-    </li>
+    <a href="#" onClick={handleClick}>
+      <Card>
+        <CardHeader className="min-w-[15em]">
+          <AspectRatio ratio={1 / 1}>
+            <img
+              src={animal.image}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
+          </AspectRatio>
+        </CardHeader>
+        <CardContent>
+          <h1 className="font-bold">{animal.name}</h1>
+          <p className="flex flex-row items-center space-x-1">
+            <CalendarHeart size={24} /> <span>{animal.age} лет</span>
+          </p>
+          <p className="flex flex-row items-center space-x-1">
+            <PawPrint size={24} /> <span>{animal.breed}</span>
+          </p>
+        </CardContent>
+      </Card>
+    </a>
   )
 }
 

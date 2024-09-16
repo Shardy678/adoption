@@ -28,4 +28,5 @@ export interface Animal {
 
   // Status
   available: boolean
+  image: string
 }
