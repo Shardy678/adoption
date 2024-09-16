@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './components/ui/select'
+import { Checkbox } from './components/ui/checkbox'
 
 function App() {
   const [animals, setAnimals] = useState<Animal[] | null>(null)
@@ -146,52 +147,44 @@ function App() {
     setSelectedSex(e.target.value || null)
   }
 
-  const handleHealthyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHealthy(e.target.checked || null)
+  const handleHealthyChange = (value: boolean) => {
+    setHealthy(value || null)
   }
 
   const handleBreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedBreed(e.target.value || null)
   }
 
-  const handleVacinatedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVaccinated(e.target.checked || null)
+  const handleVacinatedChange = (value: boolean) => {
+    setVaccinated(value || null)
   }
 
-  const handleSterilizedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSterilized(e.target.checked || null)
+  const handleSterilizedChange = (value: boolean) => {
+    setSterilized(value || null)
   }
 
-  const handleAvailableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAvailable(e.target.checked || null)
+  const handleAvailableChange = (value: boolean) => {
+    setAvailable(value || null)
   }
 
   const handleSizeChange = (value: string) => {
     setSize(value !== 'All' ? value : null)
   }
 
-  const handleCompatibleWithCatsChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCompatibleWithCats(e.target.checked || null)
+  const handleCompatibleWithCatsChange = (value: boolean) => {
+    setCompatibleWithCats(value || null)
   }
 
-  const handleCompatibleWithDogsChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCompatibleWithDogs(e.target.checked || null)
+  const handleCompatibleWithDogsChange = (value: boolean) => {
+    setCompatibleWithDogs(value || null)
   }
 
-  const handleCompatibleWithPeopleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCompatibleWithPeople(e.target.checked || null)
+  const handleCompatibleWithPeopleChange = (value: boolean) => {
+    setCompatibleWithPeople(value || null)
   }
 
-  const handleCompatibleWithChildrenChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCompatibleWithChildren(e.target.checked || null)
+  const handleCompatibleWithChildrenChange = (value: boolean) => {
+    setCompatibleWithChildren(value || null)
   }
 
   if (error) {
@@ -206,55 +199,69 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex flex-col items-center mt-24">
-        <div>
+        <div className="flex flex-row items-center">
           <label>Вид:</label>
-          <select onChange={handleSpeciesChange} value={selectedSpecies || ''}>
-            <option value="">Все</option>
-            <option value="Собака">Собака</option>
-            <option value="Кошка">Кошка</option>
-          </select>
+          <Select
+            onValueChange={(value) =>
+              setSelectedSpecies(value !== 'All' ? value : null)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Вид" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Вид</SelectLabel>
+                <SelectItem value="All">Все</SelectItem>
+                <SelectItem value="Собака">Собака</SelectItem>
+                <SelectItem value="Кошка">Кошка</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
 
-        <div>
+        <div className="flex flex-row items-center">
           <label>Пол:</label>
-          <select onChange={handleSexChange} value={selectedSex || ''}>
-            <option value="">Все</option>
-            <option value="male">Самец</option>
-            <option value="female">Самка</option>
-          </select>
+          <Select
+            onValueChange={(value) =>
+              setSelectedSex(value !== 'All' ? value : null)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Пол" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Пол</SelectLabel>
+                <SelectItem value="All">Все</SelectItem>
+                <SelectItem value="male">Самец</SelectItem>
+                <SelectItem value="female">Самка</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
 
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleHealthyChange}
-              checked={healthy || false}
-            />
-            Только здоровые
-          </label>
+        <div className="flex items-center space-x-2">
+          <Checkbox id="healthy" onCheckedChange={handleHealthyChange} />
+          <label htmlFor="healthy">Только здоровые</label>
         </div>
 
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleSterilizedChange}
-              checked={sterilized || false}
-            />
-            Только стерилизованные
-          </label>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="sterilized"
+            onCheckedChange={handleSterilizedChange}
+            checked={sterilized || false}
+          />
+          <label htmlFor="sterilized">Только стерилизованные</label>
         </div>
 
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleVacinatedChange}
-              checked={vaccinated || false}
-            />
-            Только вакцинированные
-          </label>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="vaccinated"
+            onCheckedChange={handleVacinatedChange}
+            checked={vaccinated || false}
+          />
+          <label htmlFor="vaccinated">Только вакцинированные</label>
         </div>
 
         <div className="flex flex-row items-center">
@@ -266,66 +273,54 @@ function App() {
           />
         </div>
 
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleAvailableChange}
-              checked={available || false}
-            />
-            Только доступные
-          </label>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="available"
+            onCheckedChange={handleAvailableChange}
+            checked={available || false}
+          />
+          <label htmlFor="available">Только доступные</label>
         </div>
 
         <h1>Дружит с:</h1>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleCompatibleWithCatsChange}
-              checked={compatibleWithCats || false}
-            />
-            Кошками
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleCompatibleWithDogsChange}
-              checked={compatibleWithDogs || false}
-            />
-            Собаками
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleCompatibleWithPeopleChange}
-              checked={compatibleWithPeople || false}
-            />
-            Людьми
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              onChange={handleCompatibleWithChildrenChange}
-              checked={compatibleWithChildren || false}
-            />
-            Детьми
-          </label>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="compatibleWithCats"
+            onCheckedChange={handleCompatibleWithCatsChange}
+            checked={compatibleWithCats || false}
+          />
+          <label htmlFor="compatibleWithCats">Кошками</label>
         </div>
 
-        <div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="compatibleWithDogs"
+            onCheckedChange={handleCompatibleWithDogsChange}
+            checked={compatibleWithDogs || false}
+          />
+          <label htmlFor="compatibleWithDogs">Собаками</label>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="compatibleWithPeople"
+            onCheckedChange={handleCompatibleWithPeopleChange}
+            checked={compatibleWithPeople || false}
+          />
+          <label htmlFor="compatibleWithPeople">Людьми</label>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="compatibleWithChildren"
+            onCheckedChange={handleCompatibleWithChildrenChange}
+            checked={compatibleWithChildren || false}
+          />
+          <label htmlFor="compatibleWithChildren">Детьми</label>
+        </div>
+
+        <div className="flex flex-row items-center">
           <label>Размер:</label>
-          {/* <select onChange={handleSizeChange} value={size || ''}>
-            <option value="">Все</option>
-            <option value="Очень большой">Очень большой</option>
-            <option value="Большой">Большой</option>
-            <option value="Средний">Средний</option>
-            <option value="Маленький">Маленький</option>
-            <option value="Очень маленький">Очень маленький</option>
-          </select> */}
           <Select onValueChange={handleSizeChange}>
             <SelectTrigger>
               <SelectValue placeholder="Размер" />
