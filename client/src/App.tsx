@@ -4,7 +4,6 @@ import axios from 'axios'
 import { Animal } from './types'
 import AnimalCard from '@/components/ui/AnimalCard'
 import Navbar from '@/components/ui/Navbar'
-import { Input } from './components/ui/input'
 import {
   Select,
   SelectContent,
@@ -14,33 +13,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from './components/ui/select'
+import { Input } from './components/ui/input'
 import { Checkbox } from './components/ui/checkbox'
+import { Button } from './components/ui/button'
 
 function App() {
   const [animals, setAnimals] = useState<Animal[] | null>(null)
   const [filteredAnimals, setFilteredAnimals] = useState<Animal[] | null>(null)
   const [error, setError] = useState('')
 
-  const [selectedSpecies, setSelectedSpecies] = useState<string | null>(null)
-  const [selectedSex, setSelectedSex] = useState<string | null>(null)
-  const [healthy, setHealthy] = useState<boolean | null>(null)
-  const [selectedBreed, setSelectedBreed] = useState<string | null>(null)
-  const [vaccinated, setVaccinated] = useState<boolean | null>(null)
-  const [sterilized, setSterilized] = useState<boolean | null>(null)
-  const [available, setAvailable] = useState<boolean | null>(null)
-  const [size, setSize] = useState<string | null>(null)
-  const [compatibleWithCats, setCompatibleWithCats] = useState<boolean | null>(
-    null
-  )
-  const [compatibleWithDogs, setCompatibleWithDogs] = useState<boolean | null>(
-    null
-  )
-  const [compatibleWithPeople, setCompatibleWithPeople] = useState<
-    boolean | null
-  >(null)
-  const [compatibleWithChildren, setCompatibleWithChildren] = useState<
-    boolean | null
-  >(null)
+  const initialFilters = {
+    species: null,
+    sex: null,
+    healthy: null,
+    breed: '',
+    vaccinated: null,
+    sterilized: null,
+    available: null,
+    size: null,
+    compatibleWithCats: null,
+    compatibleWithDogs: null,
+    compatibleWithPeople: null,
+    compatibleWithChildren: null,
+  }
+
+  const [filters, setFilters] = useState(initialFilters)
 
   const fetchAnimals = async () => {
     try {
@@ -58,133 +55,30 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (animals) {
-      let filtered = animals
+    if (!animals) return
 
-      if (selectedSpecies) {
-        filtered = filtered.filter(
-          (animal) => animal.species === selectedSpecies
-        )
-      }
+    const filterKeys = Object.keys(filters)
+    const filtered = animals.filter((animal) =>
+      filterKeys.every((key) => {
+        const value = filters[key as keyof typeof filters]
+        if (value == null || value == '') return true
 
-      if (selectedSex) {
-        filtered = filtered.filter((animal) => animal.sex === selectedSex)
-      }
+        if (key == 'breed') {
+          return animal.breed.toLowerCase().includes(value.toLowerCase())
+        }
 
-      if (healthy) {
-        filtered = filtered.filter((animal) => animal.healthy === healthy)
-      }
+        return animal[key as keyof Animal] === value
+      })
+    )
+    setFilteredAnimals(filtered)
+  }, [filters, animals])
 
-      if (selectedBreed) {
-        filtered = filtered.filter((animal) =>
-          animal.breed.toLowerCase().includes(selectedBreed.toLowerCase())
-        )
-      }
-
-      if (vaccinated) {
-        filtered = filtered.filter((animal) => animal.vaccinated === vaccinated)
-      }
-
-      if (sterilized) {
-        filtered = filtered.filter((animal) => animal.sterilized === sterilized)
-      }
-
-      if (available) {
-        filtered = filtered.filter((animal) => animal.available === available)
-      }
-
-      if (size) {
-        filtered = filtered.filter((animal) => animal.size === size)
-      }
-
-      if (compatibleWithCats) {
-        filtered = filtered.filter(
-          (animal) => animal.compatibleWithCats === compatibleWithCats
-        )
-      }
-
-      if (compatibleWithDogs) {
-        filtered = filtered.filter(
-          (animal) => animal.compatibleWithDogs === compatibleWithDogs
-        )
-      }
-
-      if (compatibleWithPeople) {
-        filtered = filtered.filter(
-          (animal) => animal.compatibleWithPeople === compatibleWithPeople
-        )
-      }
-
-      if (compatibleWithChildren) {
-        filtered = filtered.filter(
-          (animal) => animal.compatibleWithChildren === compatibleWithChildren
-        )
-      }
-
-      setFilteredAnimals(filtered)
-    }
-  }, [
-    selectedSpecies,
-    selectedSex,
-    healthy,
-    selectedBreed,
-    vaccinated,
-    animals,
-    sterilized,
-    available,
-    size,
-    compatibleWithCats,
-    compatibleWithDogs,
-    compatibleWithPeople,
-    compatibleWithChildren,
-  ])
-
-  const handleSpeciesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSpecies(e.target.value || null)
+  const handleFilterChange = (key: keyof typeof filters, value: any) => {
+    setFilters((prev) => ({ ...prev, [key]: value || null }))
   }
 
-  const handleSexChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSex(e.target.value || null)
-  }
-
-  const handleHealthyChange = (value: boolean) => {
-    setHealthy(value || null)
-  }
-
-  const handleBreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedBreed(e.target.value || null)
-  }
-
-  const handleVacinatedChange = (value: boolean) => {
-    setVaccinated(value || null)
-  }
-
-  const handleSterilizedChange = (value: boolean) => {
-    setSterilized(value || null)
-  }
-
-  const handleAvailableChange = (value: boolean) => {
-    setAvailable(value || null)
-  }
-
-  const handleSizeChange = (value: string) => {
-    setSize(value !== 'All' ? value : null)
-  }
-
-  const handleCompatibleWithCatsChange = (value: boolean) => {
-    setCompatibleWithCats(value || null)
-  }
-
-  const handleCompatibleWithDogsChange = (value: boolean) => {
-    setCompatibleWithDogs(value || null)
-  }
-
-  const handleCompatibleWithPeopleChange = (value: boolean) => {
-    setCompatibleWithPeople(value || null)
-  }
-
-  const handleCompatibleWithChildrenChange = (value: boolean) => {
-    setCompatibleWithChildren(value || null)
+  const resetFilters = () => {
+    setFilters(initialFilters)
   }
 
   if (error) {
@@ -195,148 +89,89 @@ function App() {
     )
   }
 
+  const selectOptions = [
+    { label: 'Вид', key: 'species', options: ['Все', 'Собака', 'Кошка'] },
+    { label: 'Пол', key: 'sex', options: ['Все', 'Самец', 'Самка'] },
+    {
+      label: 'Размер',
+      key: 'size',
+      options: [
+        'Все',
+        'Очень большой',
+        'Большой',
+        'Средний',
+        'Маленький',
+        'Очень маленький',
+      ],
+    },
+  ]
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex flex-col items-center mt-24">
-        <div className="flex flex-row items-center">
-          <label>Вид:</label>
-          <Select
-            onValueChange={(value) =>
-              setSelectedSpecies(value !== 'All' ? value : null)
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Вид" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Вид</SelectLabel>
-                <SelectItem value="All">Все</SelectItem>
-                <SelectItem value="Собака">Собака</SelectItem>
-                <SelectItem value="Кошка">Кошка</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="flex flex-col items-start space-y-2">
+          {selectOptions.map(({ label, key, options }) => (
+            <div key={key} className="flex flex-row items-center">
+              <label>{label}</label>
+              <Select
+                onValueChange={(value) =>
+                  handleFilterChange(
+                    key as keyof typeof filters,
+                    value !== 'Все' ? value : null
+                  )
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={label} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>{label}</SelectLabel>
+                    {options.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          ))}
 
-        <div className="flex flex-row items-center">
-          <label>Пол:</label>
-          <Select
-            onValueChange={(value) =>
-              setSelectedSex(value !== 'All' ? value : null)
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Пол" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Пол</SelectLabel>
-                <SelectItem value="All">Все</SelectItem>
-                <SelectItem value="male">Самец</SelectItem>
-                <SelectItem value="female">Самка</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
+          <div className="flex flex-row items-center">
+            <label htmlFor="breed"> Порода:</label>
+            <Input
+              type="text"
+              onChange={(e) => handleFilterChange('breed', e.target.value)}
+              value={filters.breed || ''}
+            />
+          </div>
 
-        <div className="flex items-center space-x-2">
-          <Checkbox id="healthy" onCheckedChange={handleHealthyChange} />
-          <label htmlFor="healthy">Только здоровые</label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="sterilized"
-            onCheckedChange={handleSterilizedChange}
-            checked={sterilized || false}
-          />
-          <label htmlFor="sterilized">Только стерилизованные</label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="vaccinated"
-            onCheckedChange={handleVacinatedChange}
-            checked={vaccinated || false}
-          />
-          <label htmlFor="vaccinated">Только вакцинированные</label>
-        </div>
-
-        <div className="flex flex-row items-center">
-          <label>Порода:</label>
-          <Input
-            type="text"
-            onChange={handleBreedChange}
-            value={selectedBreed || ''}
-          />
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="available"
-            onCheckedChange={handleAvailableChange}
-            checked={available || false}
-          />
-          <label htmlFor="available">Только доступные</label>
-        </div>
-
-        <h1>Дружит с:</h1>
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="compatibleWithCats"
-            onCheckedChange={handleCompatibleWithCatsChange}
-            checked={compatibleWithCats || false}
-          />
-          <label htmlFor="compatibleWithCats">Кошками</label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="compatibleWithDogs"
-            onCheckedChange={handleCompatibleWithDogsChange}
-            checked={compatibleWithDogs || false}
-          />
-          <label htmlFor="compatibleWithDogs">Собаками</label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="compatibleWithPeople"
-            onCheckedChange={handleCompatibleWithPeopleChange}
-            checked={compatibleWithPeople || false}
-          />
-          <label htmlFor="compatibleWithPeople">Людьми</label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="compatibleWithChildren"
-            onCheckedChange={handleCompatibleWithChildrenChange}
-            checked={compatibleWithChildren || false}
-          />
-          <label htmlFor="compatibleWithChildren">Детьми</label>
-        </div>
-
-        <div className="flex flex-row items-center">
-          <label>Размер:</label>
-          <Select onValueChange={handleSizeChange}>
-            <SelectTrigger>
-              <SelectValue placeholder="Размер" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Размеры</SelectLabel>
-                <SelectItem value="All">Все</SelectItem>
-                <SelectItem value="Очень большой">Очень большой</SelectItem>
-                <SelectItem value="Большой">Большой</SelectItem>
-                <SelectItem value="Средний">Средний</SelectItem>
-                <SelectItem value="Маленький">Маленький</SelectItem>
-                <SelectItem value="Очень маленький">Очень маленький</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          {[
+            { label: 'Только здоровые', key: 'healthy' },
+            { label: 'Только стерилизованные', key: 'sterilized' },
+            { label: 'Только вакцинированные', key: 'vaccinated' },
+            { label: 'Только доступные', key: 'available' },
+            { label: 'Дружит с кошками', key: 'compatibleWithCats' },
+            { label: 'Дружит с собаками', key: 'compatibleWithDogs' },
+            { label: 'Дружит с людьми', key: 'compatibleWithPeople' },
+            { label: 'Дружит с детьми', key: 'compatibleWithChildren' },
+          ].map(({ label, key }) => (
+            <div key={key} className="flex items-center space-x-2">
+              <Checkbox
+                id={key}
+                onCheckedChange={(checked) =>
+                  handleFilterChange(key as keyof typeof filters, checked)
+                }
+                checked={!!filters[key as keyof typeof filters]}
+              />
+              <label htmlFor={key}>{label}</label>
+            </div>
+          ))}
+          <Button variant="link" onClick={resetFilters}>
+            Сбросить фильтры
+          </Button>
         </div>
 
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
