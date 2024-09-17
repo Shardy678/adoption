@@ -14,27 +14,16 @@ import { Button } from './button'
 
 interface Filters {
   species?: string | null
-
   sex?: string | null
-
   healthy?: boolean | null
-
   breed?: string
-
   vaccinated?: boolean | null
-
   sterilized?: boolean | null
-
   available?: boolean | null
-
   size?: string | null
-
   compatibleWithCats?: boolean | null
-
   compatibleWithDogs?: boolean | null
-
   compatibleWithPeople?: boolean | null
-
   compatibleWithChildren?: boolean | null
 }
 

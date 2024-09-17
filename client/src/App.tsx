@@ -1,74 +1,14 @@
-import { useEffect, useState } from 'react'
 import './App.css'
-import axios from 'axios'
-import { Animal } from './types'
 import AnimalCard from '@/components/ui/AnimalCard'
 import Navbar from '@/components/ui/Navbar'
 import AnimalFilter from './components/ui/AnimalFilter'
+import { useFetchAnimals } from './components/hooks/useFetchAnimals'
+import { useFilterAnimals } from './components/hooks/useFilterAnimals'
 
 function App() {
-  const [animals, setAnimals] = useState<Animal[] | null>(null)
-  const [filteredAnimals, setFilteredAnimals] = useState<Animal[] | null>(null)
-  const [error, setError] = useState('')
-
-  const initialFilters = {
-    species: null,
-    sex: null,
-    healthy: null,
-    breed: '',
-    vaccinated: null,
-    sterilized: null,
-    available: null,
-    size: null,
-    compatibleWithCats: null,
-    compatibleWithDogs: null,
-    compatibleWithPeople: null,
-    compatibleWithChildren: null,
-  }
-
-  const [filters, setFilters] = useState(initialFilters)
-
-  const fetchAnimals = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/animals')
-      const animalData: Animal[] = response.data
-      setAnimals(animalData)
-      setFilteredAnimals(animalData)
-    } catch (error) {
-      setError('Error fetching animals')
-    }
-  }
-
-  useEffect(() => {
-    fetchAnimals()
-  }, [])
-
-  useEffect(() => {
-    if (!animals) return
-
-    const filterKeys = Object.keys(filters)
-    const filtered = animals.filter((animal) =>
-      filterKeys.every((key) => {
-        const value = filters[key as keyof typeof filters]
-        if (value == null || value == '') return true
-
-        if (key == 'breed') {
-          return animal.breed.toLowerCase().includes(value.toLowerCase())
-        }
-
-        return animal[key as keyof Animal] === value
-      })
-    )
-    setFilteredAnimals(filtered)
-  }, [filters, animals])
-
-  const handleFilterChange = (key: keyof typeof filters, value: any) => {
-    setFilters((prev) => ({ ...prev, [key]: value || null }))
-  }
-
-  const resetFilters = () => {
-    setFilters(initialFilters)
-  }
+  const { animals, error } = useFetchAnimals()
+  const { filters, filteredAnimals, handleFilterChange, resetFilters } =
+    useFilterAnimals(animals)
 
   if (error) {
     return (
