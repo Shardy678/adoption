@@ -4,6 +4,32 @@ import { useLocation } from 'react-router-dom'
 
 import { Badge } from '@/components/ui/badge'
 
+const getGenderedLabel = (label: string, sex: string) => {
+  if (sex === 'female') {
+    switch (label) {
+      case 'Здоров':
+        return 'Здорова'
+      case 'Не здоров':
+        return 'Не здорова'
+      case 'Вакцинирован':
+        return 'Вакцинирована'
+      case 'Не вакцинирован':
+        return 'Не вакцинирована'
+      case 'Стерилизован':
+        return 'Стерилизована'
+      case 'Не стерилизован':
+        return 'Не стерилизована'
+      case 'Доступен':
+        return 'Доступна'
+      case 'Не доступен':
+        return 'Не доступна'
+      default:
+        return label
+    }
+  }
+  return label
+}
+
 const InnerAnimal: React.FC = () => {
   const location = useLocation()
   const animal = location.state?.animal as Animal
@@ -14,16 +40,34 @@ const InnerAnimal: React.FC = () => {
 
   const badges = [
     {
-      label: animal.vaccinated ? 'Вакцинирован' : 'Не вакцинирован',
+      label: getGenderedLabel(
+        animal.vaccinated ? 'Вакцинирован' : 'Не вакцинирован',
+        animal.sex
+      ),
       value: true,
     },
     {
-      label: animal.sterilized ? 'Стерилизован' : 'Не стерилизован',
+      label: getGenderedLabel(
+        animal.sterilized ? 'Стерилизован' : 'Не стерилизован',
+        animal.sex
+      ),
       value: true,
     },
-    { label: animal.healthy ? 'Здоров' : 'Не здоров', value: true },
+    {
+      label: getGenderedLabel(
+        animal.healthy ? 'Здоров' : 'Не здоров',
+        animal.sex
+      ),
+      value: true,
+    },
     { label: `${animal.size}`, value: animal.size },
-    { label: animal.available ? 'Доступен' : 'Не доступен', value: true },
+    {
+      label: getGenderedLabel(
+        animal.available ? 'Доступен' : 'Не доступен',
+        animal.sex
+      ),
+      value: true,
+    },
   ]
 
   const compatibilityBages = [

@@ -22,20 +22,22 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex flex-col items-center mt-24">
-        <AnimalFilter
-          filters={filters}
-          handleFilterChange={handleFilterChange}
-          resetFilters={resetFilters}
-        />
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-          {filteredAnimals ? (
-            filteredAnimals.map((animal) => (
-              <AnimalCard key={animal._id} animal={animal} />
-            ))
-          ) : (
-            <div>Loading...</div>
-          )}
-        </ul>
+        <div>
+          <AnimalFilter
+            filters={filters}
+            handleFilterChange={handleFilterChange}
+            resetFilters={resetFilters}
+          />
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+            {filteredAnimals ? (
+              filteredAnimals.map((animal) => (
+                <AnimalCard key={animal._id} animal={animal} />
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
+          </ul>
+        </div>
       </div>
     </div>
   )
