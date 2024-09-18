@@ -13,19 +13,28 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { Switch } from './switch'
+import { Animal } from '@/types'
+import axios from 'axios'
 
 export default function NewAnimalCreate() {
   const navigate = useNavigate()
   const { toast } = useToast()
 
-  const [petData, setPetData] = useState({
+  const [petData, setPetData] = useState<Partial<Animal>>({
     name: '',
-    species: '',
+    age: 0,
+    sex: '',
     breed: '',
-    age: '',
-    description: '',
-    status: 'Available',
+    species: '',
+    vaccinated: false,
+    sterilized: false,
+    healthy: false,
+    compatibleWithCats: false,
+    compatibleWithDogs: false,
+    compatibleWithPeople: false,
     compatibleWithChildren: false,
+    size: 'Средний',
+    available: false,
     image: '',
   })
 
@@ -46,12 +55,12 @@ export default function NewAnimalCreate() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the data to your backend API
-    // For this example, we'll just simulate a successful submission
-    console.log('Submitting pet data:', petData)
 
-    // Simulating an API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      await axios.post('http://localhost:3000/animals', petData)
+    } catch (error) {
+      console.error('There was an error creating the animal:', error)
+    }
     navigate('/testadmin')
     toast({
       title: 'Success',
@@ -91,9 +100,8 @@ export default function NewAnimalCreate() {
                     <SelectValue placeholder="Select species" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Dog">Dog</SelectItem>
-                    <SelectItem value="Cat">Cat</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
+                    <SelectItem value="Кошка">Кошка</SelectItem>
+                    <SelectItem value="Собака">Собака</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -114,27 +122,47 @@ export default function NewAnimalCreate() {
                   type="number"
                   value={petData.age}
                   onChange={handleInputChange}
-                  min="0"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="sex">Sex</Label>
                 <Select
-                  name="status"
-                  value={petData.status}
-                  onValueChange={(value) => handleSelectChange('status', value)}
+                  name="sex"
+                  value={petData.sex}
+                  onValueChange={(value) => handleSelectChange('sex', value)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
+                    <SelectValue placeholder="Select sex" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Available">Available</SelectItem>
-                    <SelectItem value="Pending">Pending</SelectItem>
-                    <SelectItem value="Adopted">Adopted</SelectItem>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="size">Size</Label>
+                <Select
+                  name="size"
+                  value={petData.size}
+                  onValueChange={(value) => handleSelectChange('size', value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Очень большой">Очень большой</SelectItem>
+                    <SelectItem value="Большой">Большой</SelectItem>
+                    <SelectItem value="Средний">Средний</SelectItem>
+                    <SelectItem value="Маленький">Маленький</SelectItem>
+                    <SelectItem value="Очень маленький">
+                      Очень маленький
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="image">Pet Image</Label>
                 <Input
@@ -143,6 +171,76 @@ export default function NewAnimalCreate() {
                   type="text"
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="vaccinated"
+                  checked={petData.vaccinated}
+                  onCheckedChange={(checked) =>
+                    handleSwitchChange('vaccinated', checked)
+                  }
+                />
+                <Label htmlFor="vaccinated">Vaccinated</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="available"
+                  checked={petData.available}
+                  onCheckedChange={(checked) =>
+                    handleSwitchChange('available', checked)
+                  }
+                />
+                <Label htmlFor="available">Available</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="sterilized"
+                  checked={petData.sterilized}
+                  onCheckedChange={(checked) =>
+                    handleSwitchChange('sterilized', checked)
+                  }
+                />
+                <Label htmlFor="sterilized">Sterilized</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="healthy"
+                  checked={petData.healthy}
+                  onCheckedChange={(checked) =>
+                    handleSwitchChange('healthy', checked)
+                  }
+                />
+                <Label htmlFor="healthy">Healthy</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="compatibleWithCats"
+                  checked={petData.compatibleWithCats}
+                  onCheckedChange={(checked) =>
+                    handleSwitchChange('compatibleWithCats', checked)
+                  }
+                />
+                <Label htmlFor="compatibleWithCats">Good with Cats</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="compatibleWithDogs"
+                  checked={petData.compatibleWithDogs}
+                  onCheckedChange={(checked) =>
+                    handleSwitchChange('compatibleWithDogs', checked)
+                  }
+                />
+                <Label htmlFor="compatibleWithDogs">Good with Dogs</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="compatibleWithPeople"
+                  checked={petData.compatibleWithPeople}
+                  onCheckedChange={(checked) =>
+                    handleSwitchChange('compatibleWithPeople', checked)
+                  }
+                />
+                <Label htmlFor="compatibleWithPeople">Good with People</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <Switch

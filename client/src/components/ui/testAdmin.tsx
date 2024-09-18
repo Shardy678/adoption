@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -33,18 +33,29 @@ import {
 import { useFetchAnimals } from '../hooks/useFetchAnimals'
 import { Check, X } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
+import { Adoption } from '@/types'
+import axios from 'axios'
 
 export default function TestAdmin() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const [searchTerm, setSearchTerm] = useState('')
   const [speciesFilter, setSpeciesFilter] = useState('')
+  const [adoptions, setAdoptions] = useState<Adoption[]>([])
+  const [error, setError] = useState('')
 
-  const stats = [
-    { title: 'Total Pets Available', value: 150, icon: Dog },
-    { title: 'Adoptions Completed', value: 45, icon: Users },
-    { title: 'Pending Adoptions', value: 23, icon: FileText },
-    { title: 'New Pets Added (last 30 days)', value: 12, icon: Cat },
-  ]
+  const fetchAdoptions = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/adoptions')
+      const adoptionData: Adoption[] = response.data
+      setAdoptions(adoptionData)
+    } catch {
+      setError('Error fetching adoptions')
+    }
+  }
+
+  useEffect(() => {
+    fetchAdoptions()
+  }, [])
 
   const notifications = [
     { id: 1, message: 'New adoption application received for Max' },
@@ -53,6 +64,34 @@ export default function TestAdmin() {
   ]
 
   const { animals } = useFetchAnimals()
+
+  const getTotalPets = () => {
+    return animals?.length
+  }
+
+  const getAdoptionsCompleted = () => {
+    return adoptions.filter((adoption) => adoption.status === 'Завершено')
+      .length
+  }
+
+  const getPendingAdoptions = () => {
+    return adoptions.filter((adoption) => adoption.status === 'Ожидание').length
+  }
+
+  const stats = [
+    { title: 'Total Pets Available', value: getTotalPets(), icon: Dog },
+    {
+      title: 'Adoptions Completed',
+      value: getAdoptionsCompleted(),
+      icon: Users,
+    },
+    {
+      title: 'Pending Adoptions',
+      value: getPendingAdoptions()к,
+      icon: FileText,
+    },
+    { title: 'New Pets Added (last 30 days)', value: 12, icon: Cat },
+  ]
 
   const filteredPets = animals?.filter(
     (pet) =>
@@ -70,8 +109,6 @@ export default function TestAdmin() {
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="pets">Pets Management</TabsTrigger>
           <TabsTrigger value="applications">Adoption Applications</TabsTrigger>
-          <TabsTrigger value="users">Users/Volunteers</TabsTrigger>
-          <TabsTrigger value="reports">Reports & Analytics</TabsTrigger>
         </TabsList>
         <TabsContent value="dashboard">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
