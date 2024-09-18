@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Animal } from '../../types'
 import { AspectRatio } from './aspect-ratio'
 import { CalendarHeart, PawPrint } from '@phosphor-icons/react'
@@ -15,15 +15,12 @@ const getAgeWord = (age: number) => {
 }
 
 const AnimalCard: React.FC<AnimalCardProps> = ({ animal }) => {
-  const navigate = useNavigate()
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    navigate(`/animals/${animal._id}`, { state: { animal } })
-  }
-
   return (
-    <a href="#" onClick={handleClick} className="min-w-[250px]">
+    <Link
+      to={`/animals/${animal._id}`}
+      state={{ animal }}
+      className="min-w-[250px]"
+    >
       <AspectRatio ratio={1 / 1}>
         <img
           src={animal.image}
@@ -45,7 +42,7 @@ const AnimalCard: React.FC<AnimalCardProps> = ({ animal }) => {
       <p className="flex flex-row items-center space-x-1">
         <PawPrint size={24} /> <span>{animal.breed}</span>
       </p>
-    </a>
+    </Link>
   )
 }
 

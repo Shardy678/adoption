@@ -30,6 +30,22 @@ const getGenderedLabel = (label: string, sex: string) => {
   return label
 }
 
+const getGenderedSizeLabel = (size: string, sex: string) => {
+  if (sex === 'female') {
+    switch (size) {
+      case 'Большой':
+        return 'Большая'
+      case 'Средний':
+        return 'Средняя'
+      case 'Маленький':
+        return 'Маленькая'
+      default:
+        return size
+    }
+  }
+  return size
+}
+
 const InnerAnimal: React.FC = () => {
   const location = useLocation()
   const animal = location.state?.animal as Animal
@@ -60,7 +76,10 @@ const InnerAnimal: React.FC = () => {
       ),
       value: true,
     },
-    { label: `${animal.size}`, value: animal.size },
+    {
+      label: getGenderedSizeLabel(`${animal.size}`, animal.sex),
+      value: animal.size,
+    },
     {
       label: getGenderedLabel(
         animal.available ? 'Доступен' : 'Не доступен',
@@ -70,7 +89,7 @@ const InnerAnimal: React.FC = () => {
     },
   ]
 
-  const compatibilityBages = [
+  const compatibilityBadges = [
     {
       label: animal.compatibleWithCats
         ? 'Дружит с кошками'
@@ -131,7 +150,7 @@ const InnerAnimal: React.FC = () => {
       <div className="p-4">
         <h1 className="text-3xl font-bold">Дружит с</h1>
         <div className="flex flex-wrap gap-2 mt-2">
-          {compatibilityBages.map((badge, index) => (
+          {compatibilityBadges.map((badge, index) => (
             <Badge
               key={index}
               className="px-2 py-1 rounded-full"
