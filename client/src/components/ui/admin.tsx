@@ -5,6 +5,8 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Button } from './button'
 import Navbar from './Navbar'
+import { Check, PawPrint } from '@phosphor-icons/react'
+import { Card, CardContent, CardHeader, CardTitle } from './card'
 
 export default function Admin() {
   const { animals } = useFetchAnimals()
@@ -50,13 +52,42 @@ export default function Admin() {
     )
   }
 
+  const getPets = () => {
+    return animals?.length
+  }
+
+  const getAvaiablePets = () => {
+    return animals?.filter((animal) => animal.available).length
+  }
+
+  const stats = [
+    { title: 'Total pets', value: getPets(), icon: PawPrint },
+    { title: 'Total pets available', value: getAvaiablePets(), icon: Check },
+    { title: 'Pending adoptions', value: 0, icon: Check },
+    { title: 'Adoptions completed', value: 0, icon: Check },
+    { title: 'New Pets Added', value: 0, icon: Check },
+  ]
+
   return (
     <>
       <Navbar />
-      <div className="container mx-auto">
-        <h1>Admin</h1>
+      <div className="container mx-auto pt-12">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat, index) => (
+            <Card key={index}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  {stat.title}
+                </CardTitle>
+                <stat.icon className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stat.value}</div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-        <h2>Total animals: {animals?.length}</h2>
         <h2>
           Total animals available:{' '}
           {animals?.filter((animal) => animal.available).length}

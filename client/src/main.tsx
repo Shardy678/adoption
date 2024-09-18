@@ -6,7 +6,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import InnerAnimal from './components/ui/InnerAnimal'
 import Admin from './components/ui/admin'
 import AnimalEdit from './components/ui/AnimalEdit'
-import AnimalCreate from './components/ui/AnimalCreate'
+import { Toaster } from '@/components/ui/toaster'
+import NewAnimalCreate from './components/ui/NewAnimalCreate'
+import TestAdmin from './components/ui/testAdmin'
 
 const router = createBrowserRouter([
   {
@@ -23,16 +25,21 @@ const router = createBrowserRouter([
   },
   {
     path: '/animals/create',
-    element: <AnimalCreate />,
+    element: <NewAnimalCreate />,
   },
   {
     path: '/admin',
     element: <Admin />,
+  },
+  {
+    path: '/testadmin',
+    element: <TestAdmin />,
   },
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router} />
+    <Toaster />
   </StrictMode>
 )
