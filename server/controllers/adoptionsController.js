@@ -13,6 +13,8 @@ exports.createAdoption = async (req, res) => {
 exports.getAdoptions = async (req, res) => {
   try {
     const adoptions = await Adoption.find({})
+      .populate('adopter')
+      .populate('animal')
     res.status(201).json(adoptions)
   } catch (error) {
     res.status(500).json({ error: error.message })

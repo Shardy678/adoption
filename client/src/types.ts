@@ -31,3 +31,32 @@ export interface Animal {
   available: boolean
   image: string
 }
+
+export interface Adopter {
+  _id: string
+  __v: number
+
+  name: string
+  phone: string
+  email: string
+
+  address: {
+    street: string
+    city: string
+  }
+
+  createdAt: string
+}
+
+export interface Adoption {
+  _id: string
+  __v: number
+
+  animal: Animal
+  adopter: Adopter
+
+  status: string
+
+  createdAt: string
+  adoptionDate: string
+}
