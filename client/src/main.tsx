@@ -9,6 +9,9 @@ import AnimalEdit from './components/ui/AnimalEdit'
 import { Toaster } from '@/components/ui/toaster'
 import NewAnimalCreate from './components/ui/NewAnimalCreate'
 import TestAdmin from './components/ui/testAdmin'
+import LoginForm from './components/ui/LoginForm'
+import RegisterForm from './components/ui/RegisterForm'
+import UserProfile from './components/ui/UserProfile'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,18 @@ const router = createBrowserRouter([
   {
     path: '/testadmin',
     element: <TestAdmin />,
+  },
+  {
+    path: '/login',
+    element: <LoginForm />,
+  },
+  {
+    path: '/register',
+    element: <RegisterForm />,
+  },
+  {
+    path: '/user',
+    element: <UserProfile />,
   },
 ])
 

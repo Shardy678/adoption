@@ -60,3 +60,18 @@ export interface Adoption {
   createdAt: string
   adoptionDate: string
 }
+
+export interface User {
+  _id: string
+  __v: number
+
+  email: string
+  password: string
+  createdAt: string
+  role: string
+  adopterDetails: {
+    name: string
+    phone: string
+    address: string
+  }
+}

@@ -87,7 +87,7 @@ export default function TestAdmin() {
     },
     {
       title: 'Pending Adoptions',
-      value: getPendingAdoptions()к,
+      value: getPendingAdoptions(),
       icon: FileText,
     },
     { title: 'New Pets Added (last 30 days)', value: 12, icon: Cat },
