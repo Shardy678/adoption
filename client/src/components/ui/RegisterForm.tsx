@@ -1,7 +1,22 @@
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './card'
+import { Label } from './label'
+import { Input } from './input'
+import { Alert, AlertDescription } from './alert'
+import { Button } from './button'
 
 const RegisterForm = () => {
+  const navigate = useNavigate()
+
   const [adopterDetails, setAdopterDetails] = useState({
     name: '',
     phone: '',
@@ -21,66 +36,104 @@ const RegisterForm = () => {
       })
       const { token } = response.data
       localStorage.setItem('token', token)
-      // Redirect or update UI after successful registration
+      navigate('/')
     } catch (error) {
       setError('Registration failed')
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    if (name === 'email') {
-      setEmail(value)
-    } else if (name === 'password') {
-      setPassword(value)
-    } else {
-      setAdopterDetails((prevDetails) => ({
-        ...prevDetails,
-        [name]: value,
-      }))
-    }
-  }
-
   return (
-    <form onSubmit={handleRegister}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={adopterDetails.name}
-        onChange={handleChange}
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={email}
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={password}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="phone"
-        placeholder="Phone"
-        value={adopterDetails.phone}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="address"
-        placeholder="Address"
-        value={adopterDetails.address}
-        onChange={handleChange}
-      />
-      <button type="submit">Register</button>
-      {error && <p>{error}</p>}
-    </form>
+    <div className="flex items-center min-h-screen">
+      <Card className="w-full max-w-md mx-auto">
+        <CardHeader>
+          <CardTitle>Register</CardTitle>
+          <CardDescription>
+            Enter your credentials to register your account
+          </CardDescription>
+        </CardHeader>
+        <form onSubmit={handleRegister}>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="userame">Name</Label>
+              <Input
+                id="userame"
+                type="username"
+                value={adopterDetails.name}
+                onChange={(e) =>
+                  setAdopterDetails({
+                    ...adopterDetails,
+                    name: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="adress">Address</Label>
+              <Input
+                id="address"
+                type="text"
+                value={adopterDetails.address}
+                onChange={(e) =>
+                  setAdopterDetails({
+                    ...adopterDetails,
+                    address: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone</Label>
+              <Input
+                id="phone"
+                type="text"
+                value={adopterDetails.phone}
+                onChange={(e) =>
+                  setAdopterDetails({
+                    ...adopterDetails,
+                    phone: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button type="submit" className="w-full">
+              Register
+            </Button>
+          </CardFooter>
+        </form>
+      </Card>
+    </div>
   )
 }
 

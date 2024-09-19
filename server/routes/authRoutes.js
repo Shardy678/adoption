@@ -67,4 +67,19 @@ router.get(
     }
   }
 )
+
+router.put(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    try {
+      const user = await User.findByIdAndUpdate(req.body.userId, req.body, {
+        new: true,
+      })
+      res.json(user)
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching user data' })
+    }
+  }
+)
 module.exports = router

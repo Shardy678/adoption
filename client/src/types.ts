@@ -74,4 +74,5 @@ export interface User {
     phone: string
     address: string
   }
+  image: string
 }
