@@ -1,9 +1,41 @@
 const Adoption = require('../models/Adoption')
+const User = require('../models/User')
+const Animal = require('../models/Animal')
 
 exports.createAdoption = async (req, res) => {
   try {
-    const newAdoption = new Adoption(req.body)
+    const { animalId } = req.body
+
+    // Find user by token
+    const user = await User.findById(req.user.id)
+    if (!user) {
+      return res.status(404).json({ message: 'Must be logged in' })
+    }
+
+    // Find animal by ID
+    const animal = await Animal.findById(animalId)
+    if (!animal) {
+      return res.status(404).json({ message: 'Animal not found' })
+    }
+
+    // Create new adoption
+    const newAdoption = new Adoption({
+      adopter: user._id,
+      animal: animal._id,
+      ...req.body,
+    })
+
     const savedAdoption = await newAdoption.save()
+
+    const updatedAnimal = await Animal.findByIdAndUpdate(
+      animalId,
+      { available: false },
+      { new: true }
+    )
+
+    if (!updatedAnimal) {
+      return res.status(404).json({ message: 'Animal not found' })
+    }
     res.status(201).json(savedAdoption)
   } catch (error) {
     res.status(400).json({ error: error.message })

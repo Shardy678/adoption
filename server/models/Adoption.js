@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const adoptionSchema = new mongoose.Schema({
   adopter: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Adopter',
+    ref: 'User',
     required: true,
   },
   animal: {

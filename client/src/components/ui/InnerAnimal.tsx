@@ -3,6 +3,8 @@ import { CalendarHeart, PawPrint } from '@phosphor-icons/react'
 import { useLocation } from 'react-router-dom'
 
 import { Badge } from '@/components/ui/badge'
+import { Button } from './button'
+import axios from 'axios'
 
 const getGenderedLabel = (label: string, sex: string) => {
   if (sex === 'female') {
@@ -116,6 +118,26 @@ const InnerAnimal: React.FC = () => {
     },
   ]
 
+  const handleAdoption = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios.post(
+        'http://localhost:3000/adoptions',
+        {
+          animalId: animal._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      alert('You have adopted ' + animal.name)
+    } catch (error) {
+      alert('Adoption failed')
+    }
+  }
+
   return (
     <div className="h-screen">
       <img src={animal.image} className="h-1/2 object-cover" />
@@ -161,6 +183,7 @@ const InnerAnimal: React.FC = () => {
           ))}
         </div>
       </div>
+      <Button onClick={handleAdoption}>Adopt {animal.name}</Button>
     </div>
   )
 }

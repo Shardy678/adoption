@@ -35,6 +35,15 @@ import { Check, X } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
 import { Adoption } from '@/types'
 import axios from 'axios'
+import AdoptionTable from './AdoptionsTable'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from './pagination'
 
 export default function TestAdmin() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -101,6 +110,23 @@ export default function TestAdmin() {
         pet.species === speciesFilter)
   )
 
+  const [currentPage, setCurrentPage] = useState(1)
+  const petsPerPage = 10
+  const totalPages = Math.max(
+    1,
+    Math.ceil((animals?.length || 0) / petsPerPage)
+  )
+
+  const indexOfLastPet = currentPage * petsPerPage
+  const indexOfFirstPet = indexOfLastPet - petsPerPage
+  const currentPets = filteredPets?.slice(indexOfFirstPet, indexOfLastPet)
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+
+  if (animals?.length === 0) {
+    return <div>No pets available.</div>
+  }
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Pet Adoption Admin Dashboard</h1>
@@ -127,24 +153,24 @@ export default function TestAdmin() {
             ))}
           </div>
 
-          {/* <Card className="mt-4">
-                                                                    <CardHeader>
-                                                                                    <CardTitle>Notifications</CardTitle>
-                                                                    </CardHeader>
-                                                                    <CardContent>
-                                                                                    <ul className="space-y-2">
-                                                                                                    {notifications.map((notification) => (
-                                                                                                                    <li
-                                                                                                                                    key={notification.id}
-                                                                                                                                    className="flex items-center space-x-2"
-                                                                                                                    >
-                                                                                                                                    <Bell className="h-4 w-4 text-muted-foreground" />
-                                                                                                                                    <span>{notification.message}</span>
-                                                                                                                    </li>
-                                                                                                    ))}
-                                                                                    </ul>
-                                                                    </CardContent>
-                                                    </Card> */}
+          <Card className="mt-4">
+            <CardHeader>
+              <CardTitle>Notifications</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {notifications.map((notification) => (
+                  <li
+                    key={notification.id}
+                    className="flex items-center space-x-2"
+                  >
+                    <Bell className="h-4 w-4 text-muted-foreground" />
+                    <span>{notification.message}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </TabsContent>
         <TabsContent value="pets">
           <Card>
@@ -181,98 +207,141 @@ export default function TestAdmin() {
                   </Button>
                 </Link>
               </div>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Species</TableHead>
-                    <TableHead>Breed</TableHead>
-                    <TableHead>Age</TableHead>
-                    <TableHead>Available</TableHead>
-                    <TableHead>Healthy</TableHead>
-                    <TableHead>Vaccinated</TableHead>
-                    <TableHead>Sterilized</TableHead>
-                    <TableHead>Size</TableHead>
-                    <TableHead>Dog Compatibility</TableHead>
-                    <TableHead>Cat Compatibility</TableHead>
-                    <TableHead>People Compatibility</TableHead>
-                    <TableHead>Children Compatibility</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredPets?.map((pet) => (
-                    <TableRow key={pet._id}>
-                      <TableCell>{pet.name}</TableCell>
-                      <TableCell>{pet.species}</TableCell>
-                      <TableCell>{pet.breed}</TableCell>
-                      <TableCell>{pet.age}</TableCell>
-                      <TableCell>
-                        {pet.available ? <Check size={20} /> : <X size={20} />}
-                      </TableCell>
-                      <TableCell>
-                        {pet.healthy ? <Check size={20} /> : <X size={20} />}
-                      </TableCell>
-                      <TableCell>
-                        {pet.vaccinated ? <Check size={20} /> : <X size={20} />}
-                      </TableCell>
-                      <TableCell>
-                        {pet.sterilized ? <Check size={20} /> : <X size={20} />}
-                      </TableCell>
-                      <TableCell>{pet.size}</TableCell>
-                      <TableCell>
-                        {pet.compatibleWithDogs ? (
-                          <Check size={20} />
-                        ) : (
-                          <X size={20} />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {pet.compatibleWithCats ? (
-                          <Check size={20} />
-                        ) : (
-                          <X size={20} />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {pet.compatibleWithPeople ? (
-                          <Check size={20} />
-                        ) : (
-                          <X size={20} />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {pet.compatibleWithChildren ? (
-                          <Check size={20} />
-                        ) : (
-                          <X size={20} />
-                        )}
-                      </TableCell>
-
-                      <TableCell>
-                        <div className="flex space-x-2">
-                          <Button variant="outline" size="icon">
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button variant="outline" size="icon">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
+              <div>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Species</TableHead>
+                      <TableHead>Breed</TableHead>
+                      <TableHead>Age</TableHead>
+                      <TableHead>Available</TableHead>
+                      <TableHead>Healthy</TableHead>
+                      <TableHead>Vaccinated</TableHead>
+                      <TableHead>Sterilized</TableHead>
+                      <TableHead>Size</TableHead>
+                      <TableHead>Dog Compatibility</TableHead>
+                      <TableHead>Cat Compatibility</TableHead>
+                      <TableHead>People Compatibility</TableHead>
+                      <TableHead>Children Compatibility</TableHead>
+                      <TableHead>Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {currentPets?.map((pet) => (
+                      <TableRow key={pet._id}>
+                        <TableCell>{pet.name}</TableCell>
+                        <TableCell>{pet.species}</TableCell>
+                        <TableCell>{pet.breed}</TableCell>
+                        <TableCell>{pet.age}</TableCell>
+                        <TableCell>
+                          {pet.available ? (
+                            <Check size={20} />
+                          ) : (
+                            <X size={20} />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {pet.healthy ? <Check size={20} /> : <X size={20} />}
+                        </TableCell>
+                        <TableCell>
+                          {pet.vaccinated ? (
+                            <Check size={20} />
+                          ) : (
+                            <X size={20} />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {pet.sterilized ? (
+                            <Check size={20} />
+                          ) : (
+                            <X size={20} />
+                          )}
+                        </TableCell>
+                        <TableCell>{pet.size}</TableCell>
+                        <TableCell>
+                          {pet.compatibleWithDogs ? (
+                            <Check size={20} />
+                          ) : (
+                            <X size={20} />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {pet.compatibleWithCats ? (
+                            <Check size={20} />
+                          ) : (
+                            <X size={20} />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {pet.compatibleWithPeople ? (
+                            <Check size={20} />
+                          ) : (
+                            <X size={20} />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {pet.compatibleWithChildren ? (
+                            <Check size={20} />
+                          ) : (
+                            <X size={20} />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex space-x-2">
+                            <Button variant="outline" size="icon">
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button variant="outline" size="icon">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                <div className="mt-4 flex justify-center">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => paginate(Math.max(1, currentPage - 1))}
+                          disabled={currentPage === 1}
+                        />
+                      </PaginationItem>
+                      {[...Array(totalPages)].map((_, index) => (
+                        <PaginationItem key={index}>
+                          <PaginationLink
+                            onClick={() => paginate(index + 1)}
+                            isActive={currentPage === index + 1}
+                          >
+                            {index + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() =>
+                            paginate(Math.min(totalPages, currentPage + 1))
+                          }
+                          disabled={currentPage === totalPages}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="applications">
           <Card>
             <CardHeader>
-              <CardTitle>Adoption Applications</CardTitle>
+              <CardTitle>Adoption Records</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Adoption applications content goes here.</p>
+              <AdoptionTable />
             </CardContent>
           </Card>
         </TabsContent>
