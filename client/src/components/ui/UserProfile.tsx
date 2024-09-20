@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { User } from '@/types'
 import { Avatar, AvatarFallback, AvatarImage } from './avatar'
 import { Button } from './button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './card'
 import { Label } from './label'
 import { Input } from './input'
 import { Skeleton } from './skeleton'
-import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/use-toast'
 import Navbar from './Navbar'
+import useUserData from '../hooks/useUserData'
+import axiosInstance from '@/lib/axiosInstance'
 
 const logout = () => {
   localStorage.removeItem('token')
@@ -18,47 +17,15 @@ const logout = () => {
 
 const UserProfile = () => {
   const { toast } = useToast()
-
-  const [user, setUser] = useState<User | null>(null)
-  const [error, setError] = useState('')
-
-  const [adopterDetails, setAdopterDetails] = useState({
-    name: '',
-    phone: '',
-    address: '',
-  })
-  const [email, setEmail] = useState('')
-
-  //   const handleUpdate = async (e: React.FormEvent) => {
-  //     e.preventDefault()
-  //     try {
-  //       const token = localStorage.getItem('token')
-  //       const response = await axios.put(
-  //         'http://localhost:3000/auth/profile',
-  //         {
-  //           email,
-  //           adopterDetails,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       )
-  //       toast({
-  //         title: 'Success',
-  //         description: 'User data updated',
-  //       })
-  //     } catch (error) {
-  //       setError('Error updating user data')
-  //     }
-  //   }
+  const [updateError, setUpdateError] = useState('')
+  const { user, error, adopterDetails, email, setAdopterDetails, setEmail } =
+    useUserData()
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const token = localStorage.getItem('token')
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         'http://localhost:3000/auth/profile',
         {
           userId: user?._id,
@@ -77,29 +44,9 @@ const UserProfile = () => {
         description: 'User data updated',
       })
     } catch (error) {
-      setError('Error updating user data')
+      setUpdateError('Error updating user data')
     }
   }
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:3000/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        setUser(response.data)
-        setAdopterDetails(response.data.adopterDetails)
-        setEmail(response.data.email)
-      } catch (error) {
-        setError('Error fetching user data')
-      }
-    }
-
-    fetchUserData()
-  }, [])
 
   useEffect(() => {
     console.log(email, adopterDetails)

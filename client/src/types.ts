@@ -53,9 +53,9 @@ export interface Adoption {
   __v: number
 
   animal: Animal
-  adopter: Adopter
+  adopter: User
 
-  status: string
+  status: 'Завершено' | 'Ожидание' | 'Отклонено'
 
   createdAt: string
   adoptionDate: string

@@ -19,21 +19,23 @@ import { Button } from '@/components/ui/button'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 import axios from 'axios'
 
-type Adoption = {
-  id: string
-  adopter: {
-    adopterDetails: {
-      name: string
-    }
-  }
-  animal: {
-    name: string
-    species: string
-    breed: string
-  }
-  status: 'Завершено' | 'Ожидание' | 'Отклонено'
-  adoptionDate: string
-}
+import { Adoption } from '@/types'
+
+// type Adoption = {
+//   id: string
+//   adopter: {
+//     adopterDetails: {
+//       name: string
+//     }
+//   }
+//   animal: {
+//     name: string
+//     species: string
+//     breed: string
+//   }
+//   status: 'Завершено' | 'Ожидание' | 'Отклонено'
+//   adoptionDate: string
+// }
 
 export default function AdoptionTable() {
   const [adoptions, setAdoptions] = useState<Adoption[]>([])
@@ -110,7 +112,7 @@ export default function AdoptionTable() {
         </TableHeader>
         <TableBody>
           {sortedAdoptions.map((adoption) => (
-            <TableRow key={adoption.id}>
+            <TableRow key={adoption._id}>
               {/* Assuming `adopter` is an object with a `name` property */}
               <TableCell className="font-medium">
                 {adoption.adopter.adopterDetails.name}
@@ -153,7 +155,9 @@ export default function AdoptionTable() {
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem
-                      onClick={() => navigator.clipboard.writeText(adoption.id)}
+                      onClick={() =>
+                        navigator.clipboard.writeText(adoption._id)
+                      }
                     >
                       Copy adoption ID
                     </DropdownMenuItem>

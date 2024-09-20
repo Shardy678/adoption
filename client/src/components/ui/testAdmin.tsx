@@ -44,6 +44,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from './pagination'
+import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
 export default function TestAdmin() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -125,6 +126,14 @@ export default function TestAdmin() {
 
   if (animals?.length === 0) {
     return <div>No pets available.</div>
+  }
+
+  const handleDelete = (id: string) => {
+    try {
+      axios.delete(`http://localhost:3000/animals/${id}`)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -292,9 +301,22 @@ export default function TestAdmin() {
                             <Button variant="outline" size="icon">
                               <Pencil className="h-4 w-4" />
                             </Button>
-                            <Button variant="outline" size="icon">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button variant="outline" size="icon">
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto flex items-center flex-col">
+                                <h4 className="mb-2">Are you sure?</h4>
+                                <Button
+                                  variant="ghost"
+                                  onClick={() => handleDelete(pet._id)}
+                                >
+                                  Yes
+                                </Button>
+                              </PopoverContent>
+                            </Popover>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -304,28 +326,35 @@ export default function TestAdmin() {
                 <div className="mt-4 flex justify-center">
                   <Pagination>
                     <PaginationContent>
+                      {/* Previous Button */}
                       <PaginationItem>
                         <PaginationPrevious
                           onClick={() => paginate(Math.max(1, currentPage - 1))}
-                          disabled={currentPage === 1}
+                          className={currentPage === 1 ? 'hidden' : ''}
                         />
                       </PaginationItem>
+
+                      {/* Page Numbers */}
                       {[...Array(totalPages)].map((_, index) => (
                         <PaginationItem key={index}>
                           <PaginationLink
                             onClick={() => paginate(index + 1)}
-                            isActive={currentPage === index + 1}
+                            isActive={currentPage === index + 1} // Highlight current page
                           >
                             {index + 1}
                           </PaginationLink>
                         </PaginationItem>
                       ))}
+
+                      {/* Next Button */}
                       <PaginationItem>
                         <PaginationNext
-                          onClick={() =>
-                            paginate(Math.min(totalPages, currentPage + 1))
-                          }
-                          disabled={currentPage === totalPages}
+                          onClick={() => {
+                            if (currentPage < totalPages) {
+                              paginate(currentPage + 1)
+                            }
+                          }}
+                          className={currentPage === totalPages ? 'hidden' : ''} // Disable if on the last page
                         />
                       </PaginationItem>
                     </PaginationContent>
