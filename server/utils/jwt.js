@@ -8,7 +8,7 @@ const generateToken = (user) => {
     { id: user._id, email: user.email, role: user.role },
     secret,
     {
-      expiresIn: '1h',
+      expiresIn: '96h',
     }
   )
 }

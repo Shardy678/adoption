@@ -46,6 +46,7 @@ import {
   PaginationPrevious,
 } from './pagination'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
+import Navbar from './Navbar'
 
 export default function TestAdmin() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -151,263 +152,280 @@ export default function TestAdmin() {
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Pet Adoption Admin Dashboard</h1>
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="pets">Pets Management</TabsTrigger>
-          <TabsTrigger value="applications">Adoption Applications</TabsTrigger>
-        </TabsList>
-        <TabsContent value="dashboard">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {stats.map((stat, index) => (
-              <Card key={index}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    {stat.title}
-                  </CardTitle>
-                  <stat.icon className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stat.value}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+    <>
+      <Navbar />
+      <div className="container mx-auto p-6 pt-24">
+        <h1 className="text-3xl font-bold mb-6">
+          Pet Adoption Admin Dashboard
+        </h1>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="mb-4">
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="pets">Pets Management</TabsTrigger>
+            <TabsTrigger value="applications">
+              Adoption Applications
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="dashboard">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat, index) => (
+                <Card key={index}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      {stat.title}
+                    </CardTitle>
+                    <stat.icon className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{stat.value}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-          <Card className="mt-4">
-            <CardHeader>
-              <CardTitle>Notifications</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {notifications.map((notification) => (
-                  <li
-                    key={notification.id}
-                    className="flex items-center space-x-2"
-                  >
-                    <Bell className="h-4 w-4 text-muted-foreground" />
-                    <span>{notification.message}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="pets">
-          <Card>
-            <CardHeader>
-              <CardTitle>Pets Management</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col md:flex-row justify-between items-start mb-4 space-y-2 md:space-y-0 md:space-x-2 w-full">
-                <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-2 w-full">
-                  <Input
-                    placeholder="Search pets..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full"
-                  />
-                  <Select
-                    value={speciesFilter}
-                    onValueChange={setSpeciesFilter}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Filter by species" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="All">All Species</SelectItem>
-                      <SelectItem value="Собака">Dogs</SelectItem>
-                      <SelectItem value="Кошка">Cats</SelectItem>
-                    </SelectContent>
-                  </Select>
+            <Card className="mt-4">
+              <CardHeader>
+                <CardTitle>Notifications</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {notifications.map((notification) => (
+                    <li
+                      key={notification.id}
+                      className="flex items-center space-x-2"
+                    >
+                      <Bell className="h-4 w-4 text-muted-foreground" />
+                      <span>{notification.message}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="pets">
+            <Card>
+              <CardHeader>
+                <CardTitle>Pets Management</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col md:flex-row justify-between items-start mb-4 space-y-2 md:space-y-0 md:space-x-2 w-full">
+                  <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-2 w-full">
+                    <Input
+                      placeholder="Search pets..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full"
+                    />
+                    <Select
+                      value={speciesFilter}
+                      onValueChange={setSpeciesFilter}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Filter by species" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="All">All Species</SelectItem>
+                        <SelectItem value="Собака">Dogs</SelectItem>
+                        <SelectItem value="Кошка">Cats</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Link to="/animals/create" className="w-full md:w-auto">
+                    <Button className="w-full">
+                      <Plus className="mr-2 h-4 w-4" /> Add New Pet
+                    </Button>
+                  </Link>
                 </div>
-                <Link to="/animals/create" className="w-full md:w-auto">
-                  <Button className="w-full">
-                    <Plus className="mr-2 h-4 w-4" /> Add New Pet
-                  </Button>
-                </Link>
-              </div>
-              <div>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Species</TableHead>
-                      <TableHead>Breed</TableHead>
-                      <TableHead>Age</TableHead>
-                      <TableHead>Available</TableHead>
-                      <TableHead>Healthy</TableHead>
-                      <TableHead>Vaccinated</TableHead>
-                      <TableHead>Sterilized</TableHead>
-                      <TableHead>Size</TableHead>
-                      <TableHead>Dog Compatibility</TableHead>
-                      <TableHead>Cat Compatibility</TableHead>
-                      <TableHead>People Compatibility</TableHead>
-                      <TableHead>Children Compatibility</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {currentPets?.map((pet) => (
-                      <TableRow key={pet._id}>
-                        <TableCell>{pet.name}</TableCell>
-                        <TableCell>{pet.species}</TableCell>
-                        <TableCell>{pet.breed}</TableCell>
-                        <TableCell>{pet.age}</TableCell>
-                        <TableCell>
-                          {pet.available ? (
-                            <Check size={20} />
-                          ) : (
-                            <X size={20} />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {pet.healthy ? <Check size={20} /> : <X size={20} />}
-                        </TableCell>
-                        <TableCell>
-                          {pet.vaccinated ? (
-                            <Check size={20} />
-                          ) : (
-                            <X size={20} />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {pet.sterilized ? (
-                            <Check size={20} />
-                          ) : (
-                            <X size={20} />
-                          )}
-                        </TableCell>
-                        <TableCell>{pet.size}</TableCell>
-                        <TableCell>
-                          {pet.compatibleWithDogs ? (
-                            <Check size={20} />
-                          ) : (
-                            <X size={20} />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {pet.compatibleWithCats ? (
-                            <Check size={20} />
-                          ) : (
-                            <X size={20} />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {pet.compatibleWithPeople ? (
-                            <Check size={20} />
-                          ) : (
-                            <X size={20} />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {pet.compatibleWithChildren ? (
-                            <Check size={20} />
-                          ) : (
-                            <X size={20} />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex space-x-2">
-                            <Button variant="outline" size="icon">
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button variant="outline" size="icon">
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto flex items-center flex-col">
-                                <h4 className="mb-2">Are you sure?</h4>
-                                <Button
-                                  variant="ghost"
-                                  onClick={() => handleDelete(pet._id)}
-                                >
-                                  Yes
-                                </Button>
-                              </PopoverContent>
-                            </Popover>
-                          </div>
-                        </TableCell>
+                <div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Species</TableHead>
+                        <TableHead>Breed</TableHead>
+                        <TableHead>Age</TableHead>
+                        <TableHead>Available</TableHead>
+                        <TableHead>Healthy</TableHead>
+                        <TableHead>Vaccinated</TableHead>
+                        <TableHead>Sterilized</TableHead>
+                        <TableHead>Size</TableHead>
+                        <TableHead>Dog Compatibility</TableHead>
+                        <TableHead>Cat Compatibility</TableHead>
+                        <TableHead>People Compatibility</TableHead>
+                        <TableHead>Children Compatibility</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                <div className="mt-4 flex justify-center">
-                  <Pagination>
-                    <PaginationContent>
-                      {/* Previous Button */}
-                      <PaginationItem>
-                        <PaginationPrevious
-                          onClick={() => paginate(Math.max(1, currentPage - 1))}
-                          className={currentPage === 1 ? 'hidden' : ''}
-                        />
-                      </PaginationItem>
-
-                      {/* Page Numbers */}
-                      {[...Array(totalPages)].map((_, index) => (
-                        <PaginationItem key={index}>
-                          <PaginationLink
-                            onClick={() => paginate(index + 1)}
-                            isActive={currentPage === index + 1} // Highlight current page
-                          >
-                            {index + 1}
-                          </PaginationLink>
-                        </PaginationItem>
+                    </TableHeader>
+                    <TableBody>
+                      {currentPets?.map((pet) => (
+                        <TableRow key={pet._id}>
+                          <TableCell>{pet.name}</TableCell>
+                          <TableCell>{pet.species}</TableCell>
+                          <TableCell>{pet.breed}</TableCell>
+                          <TableCell>{pet.age}</TableCell>
+                          <TableCell>
+                            {pet.available ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {pet.healthy ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {pet.vaccinated ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {pet.sterilized ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>{pet.size}</TableCell>
+                          <TableCell>
+                            {pet.compatibleWithDogs ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {pet.compatibleWithCats ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {pet.compatibleWithPeople ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {pet.compatibleWithChildren ? (
+                              <Check size={20} />
+                            ) : (
+                              <X size={20} />
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex space-x-2">
+                              <Link to={`/testadmin/update/${pet._id}`}>
+                                <Button variant="outline" size="icon">
+                                  <Pencil className="h-4 w-4" />
+                                </Button>
+                              </Link>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button variant="outline" size="icon">
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto flex items-center flex-col">
+                                  <h4 className="mb-2">Are you sure?</h4>
+                                  <Button
+                                    variant="ghost"
+                                    onClick={() => handleDelete(pet._id)}
+                                  >
+                                    Yes
+                                  </Button>
+                                </PopoverContent>
+                              </Popover>
+                            </div>
+                          </TableCell>
+                        </TableRow>
                       ))}
-
-                      {/* Next Button */}
-                      <PaginationItem>
-                        <PaginationNext
-                          onClick={() => {
-                            if (currentPage < totalPages) {
-                              paginate(currentPage + 1)
+                    </TableBody>
+                  </Table>
+                  <div className="mt-4 flex justify-center">
+                    <Pagination>
+                      <PaginationContent>
+                        {/* Previous Button */}
+                        <PaginationItem>
+                          <PaginationPrevious
+                            onClick={() =>
+                              paginate(Math.max(1, currentPage - 1))
                             }
-                          }}
-                          className={currentPage === totalPages ? 'hidden' : ''}
-                        />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
+                            className={currentPage === 1 ? 'hidden' : ''}
+                          />
+                        </PaginationItem>
+
+                        {/* Page Numbers */}
+                        {[...Array(totalPages)].map((_, index) => (
+                          <PaginationItem key={index}>
+                            <PaginationLink
+                              onClick={() => paginate(index + 1)}
+                              isActive={currentPage === index + 1} // Highlight current page
+                            >
+                              {index + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+
+                        {/* Next Button */}
+                        <PaginationItem>
+                          <PaginationNext
+                            onClick={() => {
+                              if (currentPage < totalPages) {
+                                paginate(currentPage + 1)
+                              }
+                            }}
+                            className={
+                              currentPage === totalPages ? 'hidden' : ''
+                            }
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="applications">
-          <Card>
-            <CardHeader>
-              <CardTitle>Adoption Records</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <AdoptionTable />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="users">
-          <Card>
-            <CardHeader>
-              <CardTitle>Users/Volunteers Management</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>Users/Volunteers management content goes here.</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="reports">
-          <Card>
-            <CardHeader>
-              <CardTitle>Reports and Analytics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>Reports and analytics content goes here.</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="applications">
+            <Card>
+              <CardHeader>
+                <CardTitle>Adoption Records</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <AdoptionTable />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="users">
+            <Card>
+              <CardHeader>
+                <CardTitle>Users/Volunteers Management</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>Users/Volunteers management content goes here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="reports">
+            <Card>
+              <CardHeader>
+                <CardTitle>Reports and Analytics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>Reports and analytics content goes here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </>
   )
 }

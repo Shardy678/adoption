@@ -3,7 +3,7 @@ export interface Animal {
   __v: number
 
   name: string
-  age: number
+  age: string
   sex: string
   breed: string
   species: string

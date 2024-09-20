@@ -30,7 +30,7 @@ const animalSchema = new mongoose.Schema({
     required: true,
     default: 'Средний',
   },
-
+  sex: String,
   // Status
   available: { type: Boolean, required: true, default: true },
   image: { type: String, required: true },

@@ -12,6 +12,7 @@ import TestAdmin from './components/ui/testAdmin'
 import LoginForm from './components/ui/LoginForm'
 import RegisterForm from './components/ui/RegisterForm'
 import UserProfile from './components/ui/UserProfile'
+import AnimalUpdate from './components/ui/AnimalUpdate'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: '/testadmin',
     element: <TestAdmin />,
+  },
+  {
+    path: '/testadmin/update/:id',
+    element: <AnimalUpdate />,
   },
   {
     path: '/login',
