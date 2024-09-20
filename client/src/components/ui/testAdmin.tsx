@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/hooks/use-toast'
 import {
   Select,
   SelectContent,
@@ -30,7 +31,7 @@ import {
   Pencil,
   Trash2,
 } from 'lucide-react'
-import { useFetchAnimals } from '../hooks/useFetchAnimals'
+import { fetchAnimals, useFetchAnimals } from '../hooks/useFetchAnimals'
 import { Check, X } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
 import { Adoption } from '@/types'
@@ -73,7 +74,7 @@ export default function TestAdmin() {
     { id: 3, message: "Report submitted for Charlie's listing" },
   ]
 
-  const { animals } = useFetchAnimals()
+  const { animals, setAnimals } = useFetchAnimals()
 
   const getTotalPets = () => {
     return animals?.length
@@ -127,10 +128,23 @@ export default function TestAdmin() {
   if (animals?.length === 0) {
     return <div>No pets available.</div>
   }
+  const { toast } = useToast()
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     try {
-      axios.delete(`http://localhost:3000/animals/${id}`)
+      const token = localStorage.getItem('token')
+      await axios.delete(`http://localhost:3000/animals/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const animals = await fetchAnimals()
+      setAnimals(animals)
+      toast({
+        title: 'Animal deleted succesfully',
+        description: `You have deleted an animal`,
+        duration: 5000,
+      })
     } catch (error) {
       console.error(error)
     }
@@ -198,7 +212,6 @@ export default function TestAdmin() {
                   <Select
                     value={speciesFilter}
                     onValueChange={setSpeciesFilter}
-                    className="w-full"
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Filter by species" />
@@ -354,7 +367,7 @@ export default function TestAdmin() {
                               paginate(currentPage + 1)
                             }
                           }}
-                          className={currentPage === totalPages ? 'hidden' : ''} // Disable if on the last page
+                          className={currentPage === totalPages ? 'hidden' : ''}
                         />
                       </PaginationItem>
                     </PaginationContent>

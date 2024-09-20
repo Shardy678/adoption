@@ -151,26 +151,6 @@ const InnerAnimal: React.FC = () => {
     },
   ]
 
-  const handleAdoption = async () => {
-    try {
-      const token = localStorage.getItem('token')
-      const response = await axios.post(
-        'http://localhost:3000/adoptions',
-        {
-          animalId: animal._id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      alert('You have adopted ' + animal.name)
-    } catch (error) {
-      alert('Adoption failed')
-    }
-  }
-
   const handleAdopt = () => {
     setIsOpen(false)
     setStep(0)

@@ -57,7 +57,12 @@ export default function NewAnimalCreate() {
     e.preventDefault()
 
     try {
-      await axios.post('http://localhost:3000/animals', petData)
+      const token = localStorage.getItem('token')
+      await axios.post(`http://localhost:3000/animals/`, petData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
     } catch (error) {
       console.error('There was an error creating the animal:', error)
     }
