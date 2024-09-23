@@ -9,6 +9,8 @@ import { useToast } from '@/hooks/use-toast'
 import Navbar from './Navbar'
 import useUserData from '../hooks/useUserData'
 import axiosInstance from '@/lib/axiosInstance'
+import { Calendar, PawPrint, Phone } from '@phosphor-icons/react'
+import { Adoption } from '@/types'
 
 const logout = () => {
   localStorage.removeItem('token')
@@ -38,7 +40,6 @@ const UserProfile = () => {
           },
         }
       )
-      console.log(user)
       toast({
         title: 'Success',
         description: 'User data updated',
@@ -48,9 +49,33 @@ const UserProfile = () => {
     }
   }
 
+  const [adoptionApplications, setAdoptionApplications] = useState<Adoption[]>(
+    []
+  )
+
+  const fetchAdoptionApplications = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axiosInstance.get(
+        'http://localhost:3000/adoptions',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      const applications = response.data
+      setAdoptionApplications(applications)
+    } catch (error) {
+      console.error('Error fetching adoption applications:', error)
+    }
+  }
+
   useEffect(() => {
-    console.log(email, adopterDetails)
-  }, [email, adopterDetails])
+    if (user) {
+      fetchAdoptionApplications()
+    }
+  }, [user])
 
   if (error) {
     return <div>{error}</div>
@@ -91,8 +116,8 @@ const UserProfile = () => {
   return (
     <>
       <Navbar />
-      <div className="flex items-center min-h-screen">
-        <Card className="w-full max-w-md mx-auto">
+      <div className="flex items-center flex-col min-h-screen space-y-4">
+        <Card className="w-full max-w-md mx-auto mt-24">
           <CardHeader className="flex flex-col items-center space-y-2">
             <Avatar className="h-24 w-24">
               <AvatarImage
@@ -165,6 +190,42 @@ const UserProfile = () => {
             </Button>
           </CardContent>
         </Card>
+        {adoptionApplications.map((application: Adoption) => (
+          <Card key={application._id} className="w-full max-w-md mx-auto">
+            <CardHeader className="space-y-4 flex">
+              <CardTitle className="flex items-start flex-col justify-between space-y-1">
+                <p>Adoption Application</p>
+                <p className="text-sm font-normal text-gray-500">
+                  #{application._id}
+                </p>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center space-x-2">
+                <PawPrint className="h-5 w-5 text-primary" />
+                <span className="font-medium">{application.animal.name}</span>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between ">
+                  <span>Status: {application.status}</span>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <Calendar className="h-4 w-4" />
+                <span>
+                  Submitted on{' '}
+                  {new Date(application.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full">
+                <Phone className="mr-2 h-4 w-4" />
+                Contact Support
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     </>
   )

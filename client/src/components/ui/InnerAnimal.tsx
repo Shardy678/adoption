@@ -116,7 +116,7 @@ const InnerAnimal: React.FC = () => {
   ])
 
   const handleClick = () => {
-    setIsButtonClicked(true)
+      setIsButtonClicked(true)
   }
 
   const location = useLocation()
@@ -315,9 +315,11 @@ const InnerAnimal: React.FC = () => {
                 if (!open) resetModal()
               }}
             >
-              <DialogTrigger asChild>
-                <Button onClick={handleClick}>Adopt {animal.name}</Button>
-              </DialogTrigger>
+              {animal.available && (
+                <DialogTrigger asChild>
+                  <Button onClick={handleClick}>Adopt {animal.name}</Button>
+                </DialogTrigger>
+              )}
               <DialogContent className="max-w-[350px] sm:max-w-[425px] border rounded-lg shadow-sm">
                 <Card className="border-0 shadow-none">
                   <CardHeader>

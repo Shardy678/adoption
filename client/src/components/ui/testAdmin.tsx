@@ -90,6 +90,17 @@ export default function TestAdmin() {
     return adoptions.filter((adoption) => adoption.status === 'Ожидание').length
   }
 
+  const getNewPets = () => {
+    const today = new Date()
+    const thirtyDaysAgo = new Date(today)
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+    console.log(
+      animals?.filter((pet) => new Date(pet.createdAt) > thirtyDaysAgo)
+    )
+    return animals?.filter((pet) => new Date(pet.createdAt) > thirtyDaysAgo)
+      .length
+  }
+
   const stats = [
     { title: 'Total Pets Available', value: getTotalPets(), icon: Dog },
     {
@@ -102,7 +113,7 @@ export default function TestAdmin() {
       value: getPendingAdoptions(),
       icon: FileText,
     },
-    { title: 'New Pets Added (last 30 days)', value: 12, icon: Cat },
+    { title: 'New Pets Added (last 30 days)', value: getNewPets(), icon: Cat },
   ]
 
   const filteredPets = animals?.filter(
@@ -182,25 +193,6 @@ export default function TestAdmin() {
                 </Card>
               ))}
             </div>
-
-            <Card className="mt-4">
-              <CardHeader>
-                <CardTitle>Notifications</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {notifications.map((notification) => (
-                    <li
-                      key={notification.id}
-                      className="flex items-center space-x-2"
-                    >
-                      <Bell className="h-4 w-4 text-muted-foreground" />
-                      <span>{notification.message}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
           </TabsContent>
           <TabsContent value="pets">
             <Card>
