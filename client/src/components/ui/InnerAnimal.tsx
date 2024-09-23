@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from './radio-group'
 import useUserData from '../hooks/useUserData'
 import { Maximize2 } from 'lucide-react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const getGenderedLabel = (label: string, sex: string) => {
   if (sex === 'female') {
@@ -74,6 +75,7 @@ const InnerAnimal: React.FC = () => {
         address: string
       }
       email: string
+      _id: string
     }
     error: any
     setAdopterDetails: (details: any) => void
@@ -191,14 +193,49 @@ const InnerAnimal: React.FC = () => {
     },
   ]
 
-  const handleAdopt = () => {
-    setIsOpen(false)
-    setStep(0)
-    toast({
-      title: 'Adoption Successful!',
-      description: `Congratulations! You've successfully adopted ${animal.name}.`,
-      duration: 5000,
-    })
+  const handleAdopt = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('No token found')
+      }
+      await axios.post(
+        'http://localhost:3000/adoptions',
+        {
+          animalId: animal._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      await axios.put(
+        `http://localhost:3000/animals/${animal._id}`,
+        {
+          available: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      setIsOpen(false)
+      setStep(0)
+      toast({
+        title: 'Adoption Successful!',
+        description: `Congratulations! You've successfully adopted ${animal.name}.`,
+        duration: 5000,
+      })
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: 'Adoption Failed',
+        description: 'An error occurred while trying to adopt the pet.',
+        duration: 5000,
+      })
+    }
   }
 
   const handleQuestionnaireChange = (
@@ -430,7 +467,9 @@ const InnerAnimal: React.FC = () => {
                         {step === 0 ? 'Start Adoption Process' : 'Next'}
                       </Button>
                     ) : (
-                      <Button onClick={handleAdopt}>Confirm Adoption</Button>
+                      <Button onClick={async () => await handleAdopt()}>
+                        Confirm Adoption
+                      </Button>
                     )}
                   </CardFooter>
                 </Card>
