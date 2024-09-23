@@ -34,6 +34,7 @@ const animalSchema = new mongoose.Schema({
   // Status
   available: { type: Boolean, required: true, default: true },
   image: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
 })
 
 const Animal = mongoose.model('Animal', animalSchema)

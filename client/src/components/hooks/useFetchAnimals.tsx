@@ -14,7 +14,10 @@ export const useFetchAnimals = () => {
   const fetchAndSetAnimals = async () => {
     try {
       const animalData = await fetchAnimals()
-      setAnimals(animalData)
+      const sortedData = animalData.sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      })
+      setAnimals(sortedData)
     } catch {
       setError('Error fetching animals')
     }

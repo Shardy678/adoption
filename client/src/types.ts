@@ -30,6 +30,7 @@ export interface Animal {
   // Status
   available: boolean
   image: string
+  createdAt: string
 }
 
 export interface Adopter {
