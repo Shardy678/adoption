@@ -1,10 +1,10 @@
 import { Animal } from '@/types'
 import { CalendarHeart, PawPrint } from '@phosphor-icons/react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/use-toast'
 import { Badge } from '@/components/ui/badge'
 import { Button } from './button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogTrigger } from './dialog'
 import {
   Card,
@@ -20,7 +20,6 @@ import { Checkbox } from './checkbox'
 import { RadioGroup, RadioGroupItem } from './radio-group'
 import useUserData from '../hooks/useUserData'
 import { Maximize2 } from 'lucide-react'
-import axios from 'axios'
 import Navbar from './Navbar'
 
 const getGenderedLabel = (label: string, sex: string) => {
@@ -66,6 +65,20 @@ const getGenderedSizeLabel = (size: string, sex: string) => {
 }
 
 const InnerAnimal: React.FC = () => {
+  const [isButtonClicked, setIsButtonClicked] = useState(false)
+  const [userData, setUserData] = useState<{
+    user: {
+      adopterDetails: {
+        name: string
+        phone: string
+        address: string
+      }
+      email: string
+    }
+    error: any
+    setAdopterDetails: (details: any) => void
+    setEmail: (email: string) => void
+  } | null>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [step, setStep] = useState(0)
   const [questionnaire, setQuestionnaire] = useState({
@@ -75,8 +88,34 @@ const InnerAnimal: React.FC = () => {
     homeOwnership: '',
     commitmentReady: false,
   })
+
   const { user, error, adopterDetails, email, setAdopterDetails, setEmail } =
     useUserData()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isButtonClicked) {
+      if (error) {
+        console.log(error)
+        navigate('/login')
+      } else if (user && adopterDetails && email) {
+        setUserData({ user, error, setAdopterDetails, setEmail })
+      }
+    }
+  }, [
+    isButtonClicked,
+    user,
+    adopterDetails,
+    email,
+    error,
+    setAdopterDetails,
+    setEmail,
+    navigate,
+  ])
+
+  const handleClick = () => {
+    setIsButtonClicked(true)
+  }
 
   const location = useLocation()
   const animal = location.state?.animal as Animal
@@ -240,7 +279,7 @@ const InnerAnimal: React.FC = () => {
               }}
             >
               <DialogTrigger asChild>
-                <Button>Adopt {animal.name}</Button>
+                <Button onClick={handleClick}>Adopt {animal.name}</Button>
               </DialogTrigger>
               <DialogContent className="max-w-[350px] sm:max-w-[425px] border rounded-lg shadow-sm">
                 <Card className="border-0 shadow-none">
@@ -367,10 +406,12 @@ const InnerAnimal: React.FC = () => {
                         </div>
                         <div>
                           <h4 className="font-medium">Your Information</h4>
-                          <p>Name: {user?.adopterDetails.name}</p>
-                          <p>Email: {user?.email}</p>
-                          <p>Phone: {user?.adopterDetails.phone}</p>
-                          <p>Address: {user?.adopterDetails.address}</p>
+                          <p>Name: {userData?.user.adopterDetails.name}</p>
+                          <p>Email: {userData?.user.email}</p>
+                          <p>Phone: {userData?.user.adopterDetails.phone}</p>
+                          <p>
+                            Address: {userData?.user.adopterDetails.address}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -397,17 +438,6 @@ const InnerAnimal: React.FC = () => {
             </Dialog>
           </CardFooter>
         </Card>
-        <Dialog open={isFullscreen} onOpenChange={setIsFullscreen}>
-          <DialogContent className="max-w-full h-full p-0">
-            <div className="relative w-full h-full">
-              <img
-                src={animal.image}
-                alt={animal.name}
-                className="absolute inset-0 w-full h-full object-contain"
-              />
-            </div>
-          </DialogContent>
-        </Dialog>
       </div>
     </>
   )
