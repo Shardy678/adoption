@@ -21,22 +21,6 @@ import axios from 'axios'
 
 import { Adoption } from '@/types'
 
-// type Adoption = {
-//   id: string
-//   adopter: {
-//     adopterDetails: {
-//       name: string
-//     }
-//   }
-//   animal: {
-//     name: string
-//     species: string
-//     breed: string
-//   }
-//   status: 'Завершено' | 'Ожидание' | 'Отклонено'
-//   adoptionDate: string
-// }
-
 export default function AdoptionTable() {
   const [adoptions, setAdoptions] = useState<Adoption[]>([])
   const [error, setError] = useState('')
@@ -60,6 +44,52 @@ export default function AdoptionTable() {
 
     fetchAdoptions()
   }, [])
+
+  const updateAdoption = async (id: string, status: string) => {
+    try {
+      const token = localStorage.getItem('token')
+      await axios.put(
+        `http://localhost:3000/adoptions/${id}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      setAdoptions((prevAdoptions) =>
+        prevAdoptions.map((adoption) =>
+          adoption._id === id
+            ? {
+                ...adoption,
+                status: status as 'Завершено' | 'Ожидание' | 'Отклонено',
+              }
+            : adoption
+        )
+      )
+    } catch (error) {
+      console.error(error)
+      setError('Error updating adoption status')
+    }
+  }
+
+  const deleteAdoption = async (id: string) => {
+    try {
+      const token = localStorage.getItem('token')
+      await axios.delete(`http://localhost:3000/adoptions/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      setAdoptions((prevAdoptions) =>
+        prevAdoptions.filter((adoption) => adoption._id !== id)
+      )
+    } catch (error) {
+      console.error(error)
+      setError('Error deleting adoption')
+    }
+  }
+
   const [sortColumn, setSortColumn] = useState<keyof Adoption>('adoptionDate')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
 
@@ -80,6 +110,7 @@ export default function AdoptionTable() {
 
   return (
     <div className="container mx-auto">
+      {error && <p className="text-red-500">{error}</p>}
       <Table>
         <TableHeader>
           <TableRow>
@@ -154,16 +185,28 @@ export default function AdoptionTable() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
                     <DropdownMenuItem
-                      onClick={() =>
-                        navigator.clipboard.writeText(adoption._id)
-                      }
+                      onClick={() => updateAdoption(adoption._id, 'Ожидание')}
                     >
-                      Copy adoption ID
+                      Set Pending
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => updateAdoption(adoption._id, 'Отклонено')}
+                    >
+                      Set Rejected
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => updateAdoption(adoption._id, 'Завершено')}
+                    >
+                      Set Completed
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>View details</DropdownMenuItem>
-                    <DropdownMenuItem>Update status</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => deleteAdoption(adoption._id)}
+                    >
+                      Delete
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
