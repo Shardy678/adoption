@@ -11,7 +11,7 @@ import LoginForm from './components/ui/LoginForm'
 import RegisterForm from './components/ui/RegisterForm'
 import UserProfile from './components/ui/UserProfile'
 import AnimalUpdate from './components/ui/AnimalUpdate'
-import Admin from './components/ui/admin'
+import Admin from './components/ui/newAdmin'
 const router = createBrowserRouter([
   {
     path: '/',
