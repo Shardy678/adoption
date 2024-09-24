@@ -7,12 +7,11 @@ import InnerAnimal from './components/ui/InnerAnimal'
 import AnimalEdit from './components/ui/AnimalEdit'
 import { Toaster } from '@/components/ui/toaster'
 import NewAnimalCreate from './components/ui/NewAnimalCreate'
-import Admin from './components/ui/admin'
 import LoginForm from './components/ui/LoginForm'
 import RegisterForm from './components/ui/RegisterForm'
 import UserProfile from './components/ui/UserProfile'
 import AnimalUpdate from './components/ui/AnimalUpdate'
-
+import Admin from './components/ui/admin'
 const router = createBrowserRouter([
   {
     path: '/',
