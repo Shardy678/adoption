@@ -80,7 +80,7 @@ export default function AnimalUpdate() {
     } catch (error) {
       console.error('There was an error updating the animal:', error)
     }
-    navigate('/testadmin')
+    navigate('/admin')
     toast({
       title: 'Success',
       description: `${petData.name} updated successfully!`,
@@ -274,7 +274,7 @@ export default function AnimalUpdate() {
             </div>
 
             <div className="flex justify-end space-x-2">
-              <Link to="/testadmin">
+              <Link to="/admin">
                 <Button type="button" variant="outline">
                   Cancel
                 </Button>

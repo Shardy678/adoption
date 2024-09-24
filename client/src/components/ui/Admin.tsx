@@ -37,7 +37,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
 import Navbar from './Navbar'
 
-export default function TestAdmin() {
+export default function Admin() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const [searchTerm, setSearchTerm] = useState('')
   const [speciesFilter, setSpeciesFilter] = useState('')

@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const NAV_LINKS = [
   { href: '/', label: 'Animals' },
-  { href: '/testadmin', label: 'Admin' },
+  { href: '/admin', label: 'Admin' },
 ]
 
 const AUTH_LINKS = [

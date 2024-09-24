@@ -4,11 +4,10 @@ import App from './App'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import InnerAnimal from './components/ui/InnerAnimal'
-import Admin from './components/ui/admin'
 import AnimalEdit from './components/ui/AnimalEdit'
 import { Toaster } from '@/components/ui/toaster'
 import NewAnimalCreate from './components/ui/NewAnimalCreate'
-import TestAdmin from './components/ui/testAdmin'
+import Admin from './components/ui/admin'
 import LoginForm from './components/ui/LoginForm'
 import RegisterForm from './components/ui/RegisterForm'
 import UserProfile from './components/ui/UserProfile'
@@ -36,11 +35,7 @@ const router = createBrowserRouter([
     element: <Admin />,
   },
   {
-    path: '/testadmin',
-    element: <TestAdmin />,
-  },
-  {
-    path: '/testadmin/update/:id',
+    path: '/admin/update/:id',
     element: <AnimalUpdate />,
   },
   {

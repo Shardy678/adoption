@@ -66,7 +66,7 @@ export default function NewAnimalCreate() {
     } catch (error) {
       console.error('There was an error creating the animal:', error)
     }
-    navigate('/testadmin')
+    navigate('/admin')
     toast({
       title: 'Success',
       description: 'New pet added successfully!',
@@ -260,7 +260,7 @@ export default function NewAnimalCreate() {
             </div>
 
             <div className="flex justify-end space-x-2">
-              <Link to="/testadmin">
+              <Link to="/admin">
                 <Button type="button" variant="outline">
                   Cancel
                 </Button>
