@@ -36,7 +36,7 @@ const AnimalCard: React.FC<AnimalCardProps> = ({ animal }) => {
       <p className="flex flex-row items-center space-x-1">
         <CalendarHeart size={24} />{' '}
         <span>
-          {animal.age} {getAgeWord(animal.age)}
+          {animal.age} {getAgeWord(parseInt(animal.age))}
         </span>
       </p>
       <p className="flex flex-row items-center space-x-1">

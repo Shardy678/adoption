@@ -17,7 +17,7 @@ import axios from 'axios'
 const AnimalCreate: React.FC = () => {
   const [animal, setAnimal] = useState<Partial<Animal>>({
     name: '',
-    age: 0,
+    age: '',
     sex: '',
     breed: '',
     species: '',

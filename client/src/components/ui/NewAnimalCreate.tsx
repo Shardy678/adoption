@@ -22,7 +22,7 @@ export default function NewAnimalCreate() {
 
   const [petData, setPetData] = useState<Partial<Animal>>({
     name: '',
-    age: 0,
+    age: '',
     sex: '',
     breed: '',
     species: '',

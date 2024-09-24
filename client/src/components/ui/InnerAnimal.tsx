@@ -1,5 +1,5 @@
 import { Animal } from '@/types'
-import { CalendarHeart, PawPrint } from '@phosphor-icons/react'
+import { CalendarHeart, PawPrint, X } from '@phosphor-icons/react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/use-toast'
 import { Badge } from '@/components/ui/badge'
@@ -19,9 +19,9 @@ import { Input } from './input'
 import { Checkbox } from './checkbox'
 import { RadioGroup, RadioGroupItem } from './radio-group'
 import useUserData from '../hooks/useUserData'
-import { Maximize2 } from 'lucide-react'
 import Navbar from './Navbar'
 import axios from 'axios'
+import { Maximize2 } from 'lucide-react'
 
 const getGenderedLabel = (label: string, sex: string) => {
   if (sex === 'female') {
@@ -116,7 +116,7 @@ const InnerAnimal: React.FC = () => {
   ])
 
   const handleClick = () => {
-      setIsButtonClicked(true)
+    setIsButtonClicked(true)
   }
 
   const location = useLocation()
@@ -248,7 +248,7 @@ const InnerAnimal: React.FC = () => {
         type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }))
   }
-  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isImageFullscreen, setIsImageFullscreen] = useState(false)
 
   return (
     <>
@@ -266,7 +266,7 @@ const InnerAnimal: React.FC = () => {
               variant="secondary"
               size="icon"
               className="absolute top-2 right-2"
-              onClick={() => setIsFullscreen(true)}
+              onClick={() => setIsImageFullscreen(true)}
             >
               <Maximize2 className="h-4 w-4" />
             </Button>
@@ -479,6 +479,25 @@ const InnerAnimal: React.FC = () => {
             </Dialog>
           </CardFooter>
         </Card>
+        {isImageFullscreen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="relative w-full h-full">
+              <img
+                src={animal.image}
+                alt={animal.name}
+                className="w-full h-full object-contain"
+              />
+              <Button
+                variant="secondary"
+                size="icon"
+                className="absolute top-4 right-4"
+                onClick={() => setIsImageFullscreen(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   )

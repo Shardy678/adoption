@@ -27,7 +27,7 @@ const UserProfile = () => {
     e.preventDefault()
     try {
       const token = localStorage.getItem('token')
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         'http://localhost:3000/auth/profile',
         {
           userId: user?._id,
@@ -46,6 +46,7 @@ const UserProfile = () => {
       })
     } catch (error) {
       setUpdateError('Error updating user data')
+      console.error(updateError)
     }
   }
 

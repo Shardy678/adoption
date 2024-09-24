@@ -19,18 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  Bell,
-  Dog,
-  Cat,
-  Users,
-  FileText,
-  BarChart2,
-  Search,
-  Plus,
-  Pencil,
-  Trash2,
-} from 'lucide-react'
+import { Dog, Cat, Users, FileText, Plus, Pencil, Trash2 } from 'lucide-react'
 import { fetchAnimals, useFetchAnimals } from '../hooks/useFetchAnimals'
 import { Check, X } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
@@ -62,18 +51,13 @@ export default function TestAdmin() {
       setAdoptions(adoptionData)
     } catch {
       setError('Error fetching adoptions')
+      console.error(error)
     }
   }
 
   useEffect(() => {
     fetchAdoptions()
   }, [])
-
-  const notifications = [
-    { id: 1, message: 'New adoption application received for Max' },
-    { id: 2, message: "Comment added to Luna's profile" },
-    { id: 3, message: "Report submitted for Charlie's listing" },
-  ]
 
   const { animals, setAnimals } = useFetchAnimals()
 

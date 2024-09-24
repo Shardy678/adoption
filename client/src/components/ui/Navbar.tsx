@@ -35,6 +35,10 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState('')
 
+  if (error) {
+    return <div>{error}</div>
+  }
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {

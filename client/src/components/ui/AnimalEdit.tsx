@@ -36,7 +36,7 @@ const AnimalEdit: React.FC = () => {
     e.preventDefault()
     axios
       .put(`http://localhost:3000/animals/${animal._id}`, formData)
-      .then((response) => {
+      .then(() => {
         navigate('/admin')
       })
       .catch((error) => {
