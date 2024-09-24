@@ -1,7 +1,22 @@
 import { useState, useEffect } from 'react'
 import { Animal } from '@/types'
 
-const initialFilters = {
+type Filters = {
+  species: string | null
+  sex: string | null
+  healthy: boolean | null
+  breed: string
+  vaccinated: boolean | null
+  sterilized: boolean | null
+  available: boolean | null
+  size: string | null
+  compatibleWithCats: boolean | null
+  compatibleWithDogs: boolean | null
+  compatibleWithPeople: boolean | null
+  compatibleWithChildren: boolean | null
+}
+
+const initialFilters: Filters = {
   species: null,
   sex: null,
   healthy: null,
@@ -17,7 +32,7 @@ const initialFilters = {
 }
 
 export const useFilterAnimals = (animals: Animal[] | null) => {
-  const [filters, setFilters] = useState(initialFilters)
+  const [filters, setFilters] = useState<Filters>(initialFilters)
   const [filteredAnimals, setFilteredAnimals] = useState<Animal[] | null>(null)
 
   useEffect(() => {
@@ -25,11 +40,13 @@ export const useFilterAnimals = (animals: Animal[] | null) => {
 
     const filtered = animals.filter((animal) =>
       Object.keys(filters).every((key) => {
-        const value = filters[key as keyof typeof initialFilters]
+        const value = filters[key as keyof Filters]
         if (value == null || value === '') return true
 
         if (key === 'breed') {
-          return animal.breed.toLowerCase().includes(value.toLowerCase())
+          return animal.breed
+            .toLowerCase()
+            .includes((value as string).toLowerCase())
         }
 
         return animal[key as keyof Animal] === value
@@ -38,7 +55,7 @@ export const useFilterAnimals = (animals: Animal[] | null) => {
     setFilteredAnimals(filtered)
   }, [filters, animals])
 
-  const handleFilterChange = (key: keyof typeof initialFilters, value: any) => {
+  const handleFilterChange = (key: keyof Filters, value: any) => {
     setFilters((prev) => ({ ...prev, [key]: value || null }))
   }
 

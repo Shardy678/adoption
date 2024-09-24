@@ -44,6 +44,8 @@ export default function Admin() {
   const [adoptions, setAdoptions] = useState<Adoption[]>([])
   const [error, setError] = useState('')
 
+  const { animals, setAnimals } = useFetchAnimals()
+
   const fetchAdoptions = async () => {
     try {
       const response = await axios.get('http://localhost:3000/adoptions')
@@ -58,8 +60,6 @@ export default function Admin() {
   useEffect(() => {
     fetchAdoptions()
   }, [])
-
-  const { animals, setAnimals } = useFetchAnimals()
 
   const getTotalPets = () => {
     return animals?.length

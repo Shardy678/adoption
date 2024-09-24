@@ -1,11 +1,8 @@
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { MenuIcon, MountainIcon } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from './avatar'
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { User } from '@/types'
-import axios from 'axios'
+import { useState, useEffect } from 'react'
 
 const NAV_LINKS = [
   { href: '/', label: 'Animals' },
@@ -27,37 +24,15 @@ const NavLink = ({ href, label }: { href: string; label: string }) => (
   </Link>
 )
 
-const userHasToken = (): boolean => {
-  return !!localStorage.getItem('token')
-}
-
 export default function Navbar() {
-  const [user, setUser] = useState<User | null>(null)
-  const [error, setError] = useState('')
-
-  if (error) {
-    return <div>{error}</div>
-  }
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:3000/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        setUser(response.data)
-      } catch (error) {
-        setError('Error fetching user data')
-      }
+    const token = localStorage.getItem('token')
+    if (token) {
+      setIsLoggedIn(true)
     }
-
-    fetchUserData()
   }, [])
-
-  const hasToken = userHasToken()
 
   return (
     <header className="flex absolute z-10 h-20 w-full shrink-0 items-center px-4 md:px-6">
@@ -77,11 +52,11 @@ export default function Navbar() {
             {NAV_LINKS.map((link) => (
               <NavLink key={link.label} href={link.href} label={link.label} />
             ))}
-            {!hasToken &&
+            {!isLoggedIn &&
               AUTH_LINKS.map((link) => (
                 <NavLink key={link.label} href={link.href} label={link.label} />
               ))}
-            {hasToken && (
+            {isLoggedIn && (
               <NavLink key="User Profile" href="/user" label="User Profile" />
             )}
           </div>
@@ -95,25 +70,11 @@ export default function Navbar() {
         {NAV_LINKS.map((link) => (
           <NavLink key={link.label} href={link.href} label={link.label} />
         ))}
-        {!hasToken &&
+        {!isLoggedIn &&
           AUTH_LINKS.map((link) => (
             <NavLink key={link.label} href={link.href} label={link.label} />
           ))}
-        {hasToken && (
-          <a
-            href="/user"
-            className="group inline-flex font-bold test-xs"
-            aria-label="User Profile"
-          >
-            <Avatar>
-              <AvatarImage
-                src={user?.image}
-                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              />
-              <AvatarFallback>US</AvatarFallback>
-            </Avatar>
-          </a>
-        )}
+        {isLoggedIn && <NavLink key="Profile" href="/user" label="Profile" />}
       </nav>
     </header>
   )
