@@ -3,7 +3,9 @@ import axios from 'axios'
 import { Animal } from '@/types'
 
 export const fetchAnimals = async (): Promise<Animal[]> => {
-  const response = await axios.get('http://localhost:3000/animals')
+  const response = await axios.get(
+    'https://adoption-api-shardy678-nosweats-projects.vercel.app/animals'
+  )
   return response.data
 }
 
