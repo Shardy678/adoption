@@ -30,7 +30,7 @@ export default function AdoptionTable() {
       try {
         const token = localStorage.getItem('token')
         const response = await axios.get(
-          'https://adoption-api-shardy678-nosweats-projects.vercel.app/animals/adoptions',
+          'https://adoption-api-shardy678-nosweats-projects.vercel.app/adoptions',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ export default function AdoptionTable() {
     try {
       const token = localStorage.getItem('token')
       await axios.put(
-        `http://localhost:3000/adoptions/${id}`,
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/adoptions/${id}`,
         { status },
         {
           headers: {
@@ -78,11 +78,14 @@ export default function AdoptionTable() {
   const deleteAdoption = async (id: string) => {
     try {
       const token = localStorage.getItem('token')
-      await axios.delete(`http://localhost:3000/adoptions/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      await axios.delete(
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       setAdoptions((prevAdoptions) =>
         prevAdoptions.filter((adoption) => adoption._id !== id)
       )
