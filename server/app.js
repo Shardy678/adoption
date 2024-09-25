@@ -24,7 +24,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === 'production'
-        ? 'https://adoption-nosweats-projects.vercel.app/'
+        ? 'https://adoption-one.vercel.app/'
         : 'http://localhost:5173',
   })
 )
