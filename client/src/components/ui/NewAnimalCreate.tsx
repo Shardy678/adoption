@@ -58,11 +58,15 @@ export default function NewAnimalCreate() {
 
     try {
       const token = localStorage.getItem('token')
-      await axios.post(`http://localhost:3000/animals/`, petData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      await axios.post(
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/animals/`,
+        petData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
     } catch (error) {
       console.error('There was an error creating the animal:', error)
     }

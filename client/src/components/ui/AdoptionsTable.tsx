@@ -29,11 +29,14 @@ export default function AdoptionTable() {
     const fetchAdoptions = async () => {
       try {
         const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:3000/adoptions', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        const response = await axios.get(
+          'https://adoption-api-shardy678-nosweats-projects.vercel.app/animals/adoptions',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         setAdoptions(response.data)
       } catch (error) {
         console.error(error)

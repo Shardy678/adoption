@@ -46,7 +46,10 @@ const AnimalCreate: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      await axios.post('http://localhost:3000/animals', animal)
+      await axios.post(
+        'https://adoption-api-shardy678-nosweats-projects.vercel.app/animals',
+        animal
+      )
     } catch (error) {
       console.error('There was an error creating the animal:', error)
     }

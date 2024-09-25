@@ -200,7 +200,7 @@ const InnerAnimal: React.FC = () => {
         throw new Error('No token found')
       }
       await axios.post(
-        'http://localhost:3000/adoptions',
+        'https://adoption-api-shardy678-nosweats-projects.vercel.app/adoptions',
         {
           animalId: animal._id,
         },
@@ -211,7 +211,7 @@ const InnerAnimal: React.FC = () => {
         }
       )
       await axios.put(
-        `http://localhost:3000/animals/${animal._id}`,
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/animals/${animal._id}`,
         {
           available: false,
         },

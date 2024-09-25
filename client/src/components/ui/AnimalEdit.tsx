@@ -35,7 +35,10 @@ const AnimalEdit: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     axios
-      .put(`http://localhost:3000/animals/${animal._id}`, formData)
+      .put(
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/animals${animal._id}`,
+        formData
+      )
       .then(() => {
         navigate('/admin')
       })

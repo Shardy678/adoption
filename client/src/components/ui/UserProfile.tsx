@@ -28,7 +28,7 @@ const UserProfile = () => {
     try {
       const token = localStorage.getItem('token')
       await axiosInstance.put(
-        'http://localhost:3000/auth/profile',
+        'https://adoption-api-shardy678-nosweats-projects.vercel.app/auth/profile',
         {
           userId: user?._id,
           email,
@@ -58,7 +58,7 @@ const UserProfile = () => {
     try {
       const token = localStorage.getItem('token')
       const response = await axiosInstance.get(
-        'http://localhost:3000/adoptions',
+        'https://adoption-api-shardy678-nosweats-projects.vercel.app/adoptions',
         {
           headers: {
             Authorization: `Bearer ${token}`,

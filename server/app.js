@@ -22,10 +22,7 @@ app.use(express.json())
 // CORS
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === 'production'
-        ? 'https://adoption-one.vercel.app/'
-        : 'http://localhost:5173',
+    origin: 'https://adoption-one.vercel.app',
   })
 )
 

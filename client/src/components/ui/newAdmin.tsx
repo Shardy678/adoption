@@ -48,7 +48,9 @@ export default function Admin() {
 
   const fetchAdoptions = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/adoptions')
+      const response = await axios.get(
+        'https://adoption-api-shardy678-nosweats-projects.vercel.app/adoptions'
+      )
       const adoptionData: Adoption[] = response.data
       setAdoptions(adoptionData)
     } catch {

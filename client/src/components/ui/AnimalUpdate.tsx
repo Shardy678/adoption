@@ -40,7 +40,9 @@ export default function AnimalUpdate() {
   })
 
   const fetchAnimal = async (): Promise<Animal> => {
-    const response = await axios.get(`http://localhost:3000/animals/${id}`)
+    const response = await axios.get(
+      `https://adoption-api-shardy678-nosweats-projects.vercel.app/animals${id}`
+    )
     return response.data
   }
 

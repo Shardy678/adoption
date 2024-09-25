@@ -23,10 +23,13 @@ const LoginForm = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', {
-        email,
-        password,
-      })
+      const response = await axios.post(
+        'https://adoption-api-shardy678-nosweats-projects.vercel.app/auth/login',
+        {
+          email,
+          password,
+        }
+      )
       const { token } = response.data
       localStorage.setItem('token', token)
       navigate('/')

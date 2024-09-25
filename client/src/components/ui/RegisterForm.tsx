@@ -29,11 +29,14 @@ const RegisterForm = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', {
-        email,
-        password,
-        adopterDetails,
-      })
+      const response = await axios.post(
+        'https://adoption-api-shardy678-nosweats-projects.vercel.app/auth/register',
+        {
+          email,
+          password,
+          adopterDetails,
+        }
+      )
       const { token } = response.data
       localStorage.setItem('token', token)
       navigate('/')
