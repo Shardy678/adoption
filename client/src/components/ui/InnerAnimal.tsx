@@ -98,7 +98,7 @@ const InnerAnimal: React.FC = () => {
   useEffect(() => {
     if (isButtonClicked) {
       if (error) {
-        console.log(error)
+        console.error(error)
         navigate('/login')
       } else if (user && adopterDetails && email) {
         setUserData({ user, error, setAdopterDetails, setEmail })

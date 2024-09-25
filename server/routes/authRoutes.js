@@ -48,7 +48,6 @@ router.post('/login', async (req, res) => {
     }
 
     const token = generateToken(user)
-    console.log('User logged in')
     res.json({ token })
   } catch (error) {
     res.status(400).json({ error: error.message })

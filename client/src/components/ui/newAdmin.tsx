@@ -78,9 +78,6 @@ export default function Admin() {
     const today = new Date()
     const thirtyDaysAgo = new Date(today)
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-    console.log(
-      animals?.filter((pet) => new Date(pet.createdAt) > thirtyDaysAgo)
-    )
     return animals?.filter((pet) => new Date(pet.createdAt) > thirtyDaysAgo)
       .length
   }

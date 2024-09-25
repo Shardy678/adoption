@@ -34,7 +34,6 @@ export default function AdoptionTable() {
             Authorization: `Bearer ${token}`,
           },
         })
-        console.log(response.data)
         setAdoptions(response.data)
       } catch (error) {
         console.error(error)

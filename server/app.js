@@ -2,6 +2,7 @@ const express = require('express')
 const connectDB = require('./db')
 const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
 const passport = require('passport')
 
 const animalRoutes = require('./routes/animals')
@@ -20,6 +21,14 @@ app.use(
     origin: 'http://localhost:5173',
   })
 )
+
+const clientDistPath = path.join(__dirname, '../client/dist')
+app.use(express.static(clientDistPath))
+
+// Route all other requests to the 'index.html'
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'))
+})
 
 app.use(passport.initialize())
 require('./config/passport')(passport)
