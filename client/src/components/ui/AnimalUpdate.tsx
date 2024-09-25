@@ -74,11 +74,15 @@ export default function AnimalUpdate() {
 
     try {
       const token = localStorage.getItem('token')
-      await axios.put(`http://localhost:3000/animals/${id}`, petData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      await axios.put(
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/animals/${id}`,
+        petData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
     } catch (error) {
       console.error('There was an error updating the animal:', error)
     }

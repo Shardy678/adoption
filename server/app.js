@@ -39,7 +39,3 @@ app.use('/auth', authRoutes)
 // Export Express app as serverless function
 module.exports = app
 module.exports.handler = serverless(app)
-
-// app.listen(port, () => {
-//   console.log(`Backend running on http://localhost:${port}`)
-// })

@@ -79,7 +79,7 @@ export default function AdoptionTable() {
     try {
       const token = localStorage.getItem('token')
       await axios.delete(
-        `https://adoption-api-shardy678-nosweats-projects.vercel.app/${id}`,
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/adoptions/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

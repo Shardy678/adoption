@@ -128,11 +128,14 @@ export default function Admin() {
   const handleDelete = async (id: string) => {
     try {
       const token = localStorage.getItem('token')
-      await axios.delete(`http://localhost:3000/animals/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      await axios.delete(
+        `https://adoption-api-shardy678-nosweats-projects.vercel.app/animals/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       const animals = await fetchAnimals()
       setAnimals(animals)
       toast({
@@ -297,7 +300,7 @@ export default function Admin() {
                           </TableCell>
                           <TableCell>
                             <div className="flex space-x-2">
-                              <Link to={`/testadmin/update/${pet._id}`}>
+                              <Link to={`/admin/update/${pet._id}`}>
                                 <Button variant="outline" size="icon">
                                   <Pencil className="h-4 w-4" />
                                 </Button>
