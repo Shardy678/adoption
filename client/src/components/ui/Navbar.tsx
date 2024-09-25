@@ -44,7 +44,7 @@ export default function Navbar() {
           </Button>
         </SheetTrigger>
         <SheetContent side="top">
-          <a href="#" className="mr-6 hidden md:flex">
+          <a href="/" className="mr-6 hidden md:flex">
             <MountainIcon className="h-6 w-6" />
             <span className="sr-only">Acme Inc</span>
           </a>
