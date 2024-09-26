@@ -123,27 +123,27 @@ export default function AdoptionTable() {
               onClick={() => toggleSort('adopter')}
               className="cursor-pointer"
             >
-              Adopter <ArrowUpDown className="ml-2 h-4 w-4 inline" />
+              Усыновитель <ArrowUpDown className="ml-2 h-4 w-4 inline" />
             </TableHead>
             <TableHead
               onClick={() => toggleSort('animal')}
               className="cursor-pointer"
             >
-              Animal <ArrowUpDown className="ml-2 h-4 w-4 inline" />
+              Питомец <ArrowUpDown className="ml-2 h-4 w-4 inline" />
             </TableHead>
             <TableHead
               onClick={() => toggleSort('status')}
               className="cursor-pointer"
             >
-              Status <ArrowUpDown className="ml-2 h-4 w-4 inline" />
+              Статус <ArrowUpDown className="ml-2 h-4 w-4 inline" />
             </TableHead>
             <TableHead
               onClick={() => toggleSort('adoptionDate')}
               className="cursor-pointer"
             >
-              Adoption Date <ArrowUpDown className="ml-2 h-4 w-4 inline" />
+              Дата <ArrowUpDown className="ml-2 h-4 w-4 inline" />
             </TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="text-right">Действия</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -189,28 +189,28 @@ export default function AdoptionTable() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuLabel>Действия</DropdownMenuLabel>
 
                     <DropdownMenuItem
                       onClick={() => updateAdoption(adoption._id, 'Ожидание')}
                     >
-                      Set Pending
+                      Поставить "Ожидание"
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => updateAdoption(adoption._id, 'Отклонено')}
                     >
-                      Set Rejected
+                      Поставить "Отклонено"
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => updateAdoption(adoption._id, 'Завершено')}
                     >
-                      Set Completed
+                      Поставить "Завршено"
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => deleteAdoption(adoption._id)}
                     >
-                      Delete
+                      Удалить
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
