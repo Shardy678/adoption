@@ -49,9 +49,9 @@ const RegisterForm = () => {
     <div className="flex items-center min-h-screen">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Зарегестрироваться</CardTitle>
+          <CardTitle>Зарегистрироваться</CardTitle>
           <CardDescription>
-            Введите данные чтобы зарегестрироваться
+            Введите данные чтобы зарегистрироваться
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleRegister}>
@@ -131,7 +131,7 @@ const RegisterForm = () => {
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full">
-              Register
+              Зарегистрироваться
             </Button>
           </CardFooter>
         </form>

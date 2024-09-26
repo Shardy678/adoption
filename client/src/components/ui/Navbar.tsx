@@ -12,7 +12,7 @@ const NAV_LINKS = [
 
 const AUTH_LINKS = [
   { href: '/login', label: 'Войти' },
-  { href: '/register', label: 'Зарегестрироваться' },
+  { href: '/register', label: 'Зарегистрироваться' },
 ]
 
 const NavLink = ({ href, label }: { href: string; label: string }) => (
