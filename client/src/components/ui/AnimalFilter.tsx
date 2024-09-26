@@ -82,7 +82,7 @@ const AnimalFilter: React.FC<AnimalFilterProps> = ({
                   <SelectValue placeholder={label} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectGroup>
+                  <SelectGroup className="w-full">
                     <SelectLabel>{label}</SelectLabel>
                     {options.map((option) => (
                       <SelectItem
