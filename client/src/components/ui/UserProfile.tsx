@@ -41,11 +41,11 @@ const UserProfile = () => {
         }
       )
       toast({
-        title: 'Success',
-        description: 'User data updated',
+        title: 'Успех',
+        description: 'Данные обновлены',
       })
     } catch (error) {
-      setUpdateError('Error updating user data')
+      setUpdateError('Возникла ошибка при обновлении данных')
       console.error(updateError)
     }
   }
@@ -129,12 +129,12 @@ const UserProfile = () => {
                 {user.email[0].toLocaleUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <CardTitle className="text-2xl font-bold">User Profile</CardTitle>
+            <CardTitle className="text-2xl font-bold">Профиль</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={handleUpdate}>
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">Имя</Label>
                 <Input
                   id="name"
                   value={adopterDetails.name}
@@ -147,7 +147,7 @@ const UserProfile = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Почта</Label>
                 <Input
                   id="email"
                   value={email}
@@ -155,7 +155,7 @@ const UserProfile = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="address">Address</Label>
+                <Label htmlFor="address">Адрес</Label>
                 <Input
                   id="address"
                   value={adopterDetails.address}
@@ -168,7 +168,7 @@ const UserProfile = () => {
                 />
               </div>
               <div className="space-y-2 mb-4">
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="phone">Телефон</Label>
                 <Input
                   id="phone"
                   value={adopterDetails.phone}
@@ -182,12 +182,12 @@ const UserProfile = () => {
               </div>
               <div>
                 <Button type="submit" className="w-full">
-                  Update
+                  Обновить
                 </Button>
               </div>
             </form>
             <Button onClick={logout} className="w-full" variant="destructive">
-              Logout
+              Выйти
             </Button>
           </CardContent>
         </Card>
@@ -195,7 +195,7 @@ const UserProfile = () => {
           <Card key={application._id} className="w-full max-w-md mx-auto">
             <CardHeader className="space-y-4 flex">
               <CardTitle className="flex items-start flex-col justify-between space-y-1">
-                <p>Adoption Application</p>
+                <p>Заявки</p>
                 <p className="text-sm font-normal text-gray-500">
                   #{application._id}
                 </p>
@@ -208,13 +208,13 @@ const UserProfile = () => {
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between ">
-                  <span>Status: {application.status}</span>
+                  <span>Статус: {application.status}</span>
                 </div>
               </div>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Calendar className="h-4 w-4" />
                 <span>
-                  Submitted on{' '}
+                  Отправлено{' '}
                   {new Date(application.createdAt).toLocaleDateString()}
                 </span>
               </div>
@@ -222,7 +222,7 @@ const UserProfile = () => {
             <CardFooter>
               <Button className="w-full">
                 <Phone className="mr-2 h-4 w-4" />
-                Contact Support
+                Позвонить нам
               </Button>
             </CardFooter>
           </Card>

@@ -152,16 +152,12 @@ export default function Admin() {
     <>
       <Navbar />
       <div className="container mx-auto p-6 pt-24">
-        <h1 className="text-3xl font-bold mb-6">
-          Pet Adoption Admin Dashboard
-        </h1>
+        <h1 className="text-3xl font-bold mb-6">Дэшборд</h1>
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-4">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="pets">Pets Management</TabsTrigger>
-            <TabsTrigger value="applications">
-              Adoption Applications
-            </TabsTrigger>
+            <TabsTrigger value="dashboard">Дэшборд</TabsTrigger>
+            <TabsTrigger value="pets">Управление животными</TabsTrigger>
+            <TabsTrigger value="applications">Заявки</TabsTrigger>
           </TabsList>
           <TabsContent value="dashboard">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -183,7 +179,7 @@ export default function Admin() {
           <TabsContent value="pets">
             <Card>
               <CardHeader>
-                <CardTitle>Pets Management</CardTitle>
+                <CardTitle>Управление животными</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col md:flex-row justify-between items-start mb-4 space-y-2 md:space-y-0 md:space-x-2 w-full">
@@ -202,15 +198,15 @@ export default function Admin() {
                         <SelectValue placeholder="Filter by species" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="All">All Species</SelectItem>
-                        <SelectItem value="Собака">Dogs</SelectItem>
-                        <SelectItem value="Кошка">Cats</SelectItem>
+                        <SelectItem value="All">Все виды</SelectItem>
+                        <SelectItem value="Собака">Собаки</SelectItem>
+                        <SelectItem value="Кошка">Кошки</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <Link to="/animals/create" className="w-full md:w-auto">
                     <Button className="w-full">
-                      <Plus className="mr-2 h-4 w-4" /> Add New Pet
+                      <Plus className="mr-2 h-4 w-4" /> Добавить новое
                     </Button>
                   </Link>
                 </div>
@@ -218,20 +214,20 @@ export default function Admin() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Species</TableHead>
-                        <TableHead>Breed</TableHead>
-                        <TableHead>Age</TableHead>
-                        <TableHead>Available</TableHead>
-                        <TableHead>Healthy</TableHead>
-                        <TableHead>Vaccinated</TableHead>
-                        <TableHead>Sterilized</TableHead>
-                        <TableHead>Size</TableHead>
-                        <TableHead>Dog Compatibility</TableHead>
-                        <TableHead>Cat Compatibility</TableHead>
-                        <TableHead>People Compatibility</TableHead>
-                        <TableHead>Children Compatibility</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead>Имя</TableHead>
+                        <TableHead>Вид</TableHead>
+                        <TableHead>Порода</TableHead>
+                        <TableHead>Возраст</TableHead>
+                        <TableHead>Доступен</TableHead>
+                        <TableHead>Здоров</TableHead>
+                        <TableHead>Вакцинирован</TableHead>
+                        <TableHead>Стерилизован</TableHead>
+                        <TableHead>Размер</TableHead>
+                        <TableHead>Дружит с собаками</TableHead>
+                        <TableHead>Дружит с кошками</TableHead>
+                        <TableHead>Дружит с людьми</TableHead>
+                        <TableHead>Дружит с детьми</TableHead>
+                        <TableHead>Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -312,7 +308,7 @@ export default function Admin() {
                                   </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto flex items-center flex-col">
-                                  <h4 className="mb-2">Are you sure?</h4>
+                                  <h4 className="mb-2">Вы уверены?</h4>
                                   <Button
                                     variant="ghost"
                                     onClick={() => handleDelete(pet._id)}
@@ -375,30 +371,10 @@ export default function Admin() {
           <TabsContent value="applications">
             <Card>
               <CardHeader>
-                <CardTitle>Adoption Records</CardTitle>
+                <CardTitle>Записи заявок</CardTitle>
               </CardHeader>
               <CardContent>
                 <AdoptionTable />
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="users">
-            <Card>
-              <CardHeader>
-                <CardTitle>Users/Volunteers Management</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Users/Volunteers management content goes here.</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="reports">
-            <Card>
-              <CardHeader>
-                <CardTitle>Reports and Analytics</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Reports and analytics content goes here.</p>
               </CardContent>
             </Card>
           </TabsContent>

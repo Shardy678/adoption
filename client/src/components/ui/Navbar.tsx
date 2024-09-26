@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 const NAV_LINKS = [
-  { href: '/', label: 'Animals' },
-  { href: '/admin', label: 'Admin' },
+  { href: '/', label: 'Животные' },
+  { href: '/admin', label: 'Админка' },
 ]
 
 const AUTH_LINKS = [
-  { href: '/login', label: 'Log in' },
-  { href: '/register', label: 'Register' },
+  { href: '/login', label: 'Войти' },
+  { href: '/register', label: 'Зарегестрироваться' },
 ]
 
 const NavLink = ({ href, label }: { href: string; label: string }) => (
