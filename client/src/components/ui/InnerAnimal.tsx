@@ -323,7 +323,7 @@ const InnerAnimal: React.FC = () => {
               <DialogContent className="max-w-[350px] sm:max-w-[425px] border rounded-lg shadow-sm">
                 <Card className="border-0 shadow-none">
                   <CardHeader>
-                    <CardTitle>{`Adoption Process for ${animal.name}`}</CardTitle>
+                    <CardTitle>{`Усыновление ${animal.name}`}</CardTitle>
                     <CardDescription>Шаг {step + 1} of 4</CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -461,12 +461,12 @@ const InnerAnimal: React.FC = () => {
                         variant="outline"
                         onClick={() => setStep((prev) => prev - 1)}
                       >
-                        Back
+                        Назад
                       </Button>
                     )}
                     {step < 3 ? (
                       <Button onClick={() => setStep((prev) => prev + 1)}>
-                        {step === 0 ? 'Start Adoption Process' : 'Next'}
+                        {step === 0 ? 'Начать усыновление' : 'Далее'}
                       </Button>
                     ) : (
                       <Button onClick={async () => await handleAdopt()}>
