@@ -68,7 +68,7 @@ const AnimalFilter: React.FC<AnimalFilterProps> = ({
       <SheetContent side="left">
         <div className="flex flex-col items-start space-y-2">
           {selectOptions.map(({ label, key, options }) => (
-            <div key={key} className="flex flex-row items-center">
+            <div key={key} className="flex flex-col items-center">
               <label className="me-3">{label}</label>
               <Select
                 onValueChange={(value) =>
@@ -85,7 +85,11 @@ const AnimalFilter: React.FC<AnimalFilterProps> = ({
                   <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
                     {options.map((option) => (
-                      <SelectItem key={option} value={option}>
+                      <SelectItem
+                        className="w-full"
+                        key={option}
+                        value={option}
+                      >
                         {option}
                       </SelectItem>
                     ))}
@@ -95,11 +99,12 @@ const AnimalFilter: React.FC<AnimalFilterProps> = ({
             </div>
           ))}
 
-          <div className="flex flex-row items-center">
+          <div className="flex flex-col items-center">
             <label htmlFor="breed" className="me-3">
               Порода:
             </label>
             <Input
+              className="w-full"
               type="text"
               onChange={(e) => handleFilterChange('breed', e.target.value)}
               value={filters.breed || ''}
