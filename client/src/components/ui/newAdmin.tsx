@@ -189,7 +189,7 @@ export default function Admin() {
                 <div className="flex flex-col md:flex-row justify-between items-start mb-4 space-y-2 md:space-y-0 md:space-x-2 w-full">
                   <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-2 w-full">
                     <Input
-                      placeholder="Search pets..."
+                      placeholder="Найти животное..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="w-full"
@@ -199,7 +199,7 @@ export default function Admin() {
                       onValueChange={setSpeciesFilter}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Filter by species" />
+                        <SelectValue placeholder="Отфильтровать по виду" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="All">Все виды</SelectItem>
