@@ -49,15 +49,15 @@ const RegisterForm = () => {
     <div className="flex items-center min-h-screen">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle>Зарегестрироваться</CardTitle>
           <CardDescription>
-            Enter your credentials to register your account
+            Введите данные чтобы зарегестрироваться
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleRegister}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Почта</Label>
               <Input
                 id="email"
                 type="email"
@@ -68,7 +68,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Пароль</Label>
               <Input
                 id="password"
                 type="password"
@@ -78,7 +78,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="userame">Name</Label>
+              <Label htmlFor="userame">Имя</Label>
               <Input
                 id="userame"
                 type="username"
@@ -93,7 +93,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="adress">Address</Label>
+              <Label htmlFor="adress">Адрес</Label>
               <Input
                 id="address"
                 type="text"
@@ -108,7 +108,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">Телефон</Label>
               <Input
                 id="phone"
                 type="text"

@@ -42,15 +42,13 @@ const LoginForm = () => {
     <div className="flex items-center min-h-screen">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
-            Enter your credentials to access your account
-          </CardDescription>
+          <CardTitle>Войти</CardTitle>
+          <CardDescription>Введите данные чтобы войти</CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Почта</Label>
               <Input
                 id="email"
                 type="email"
@@ -61,7 +59,7 @@ const LoginForm = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Пароль</Label>
               <Input
                 id="password"
                 type="password"
@@ -78,7 +76,7 @@ const LoginForm = () => {
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full">
-              Log in
+              Войти
             </Button>
           </CardFooter>
         </form>
