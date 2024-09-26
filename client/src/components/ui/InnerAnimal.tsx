@@ -224,15 +224,15 @@ const InnerAnimal: React.FC = () => {
       setIsOpen(false)
       setStep(0)
       toast({
-        title: 'Adoption Successful!',
-        description: `Congratulations! You've successfully adopted ${animal.name}.`,
+        title: 'Усыновление успешно!',
+        description: `Поздравляем! Вы приютили ${animal.name}.`,
         duration: 5000,
       })
     } catch (error) {
       console.error(error)
       toast({
-        title: 'Adoption Failed',
-        description: 'An error occurred while trying to adopt the pet.',
+        title: 'Усыновление неуспешно',
+        description: 'Возникла ошибка при усыновлении.',
         duration: 5000,
       })
     }
@@ -317,46 +317,44 @@ const InnerAnimal: React.FC = () => {
             >
               {animal.available && (
                 <DialogTrigger asChild>
-                  <Button onClick={handleClick}>Adopt {animal.name}</Button>
+                  <Button onClick={handleClick}>Приютить {animal.name}</Button>
                 </DialogTrigger>
               )}
               <DialogContent className="max-w-[350px] sm:max-w-[425px] border rounded-lg shadow-sm">
                 <Card className="border-0 shadow-none">
                   <CardHeader>
                     <CardTitle>{`Adoption Process for ${animal.name}`}</CardTitle>
-                    <CardDescription>Step {step + 1} of 4</CardDescription>
+                    <CardDescription>Шаг {step + 1} of 4</CardDescription>
                   </CardHeader>
                   <CardContent>
                     {step === 0 && (
                       <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Pet Details</h3>
+                        <h3 className="text-lg font-semibold">
+                          Информация про питомца
+                        </h3>
                         <p>
-                          <strong>Name:</strong> {animal.name}
+                          <strong>Имя:</strong> {animal.name}
                         </p>
                         <p>
-                          <strong>Age:</strong> {animal.age} years
+                          <strong>Возраст:</strong> {animal.age} лет
                         </p>
                         <p>
-                          <strong>Breed:</strong> {animal.breed}
+                          <strong>Порода:</strong> {animal.breed}
                         </p>
                       </div>
                     )}
                     {step === 1 && (
                       <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">
-                          Confirm Interest
-                        </h3>
-                        <p>Are you sure you want to adopt {animal.name}?</p>
+                        <h3 className="text-lg font-semibold">Подтвреждение</h3>
+                        <p>Вы уверены что хотите приютить {animal.name}?</p>
                       </div>
                     )}
                     {step === 2 && (
                       <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">
-                          Adoption Questionnaire
-                        </h3>
+                        <h3 className="text-lg font-semibold">Опросник</h3>
                         <div className="space-y-2">
                           <Label htmlFor="otherPets">
-                            Do you have other pets?
+                            У вас есть другие животные?
                           </Label>
                           <Input
                             id="otherPets"
@@ -377,11 +375,13 @@ const InnerAnimal: React.FC = () => {
                               }))
                             }
                           />
-                          <Label htmlFor="hasYard">Do you have a yard?</Label>
+                          <Label htmlFor="hasYard">
+                            Вы живёте в загородном доме?
+                          </Label>
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="hoursWithPet">
-                            How many hours can you spend with the pet daily?
+                            Как много часов сможете уделять питомцу в день?
                           </Label>
                           <Input
                             id="hoursWithPet"
@@ -391,7 +391,9 @@ const InnerAnimal: React.FC = () => {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label>Do you rent or own your home?</Label>
+                          <Label>
+                            Вы снимаете или владеете домом/квартирой?
+                          </Label>
                           <RadioGroup
                             name="homeOwnership"
                             value={questionnaire.homeOwnership}
@@ -404,11 +406,11 @@ const InnerAnimal: React.FC = () => {
                           >
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="rent" id="rent" />
-                              <Label htmlFor="rent">Rent</Label>
+                              <Label htmlFor="rent">Снимаю</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="own" id="own" />
-                              <Label htmlFor="own">Own</Label>
+                              <Label htmlFor="own">Владею</Label>
                             </div>
                           </RadioGroup>
                         </div>
@@ -426,8 +428,8 @@ const InnerAnimal: React.FC = () => {
                             }
                           />
                           <Label htmlFor="commitmentReady">
-                            Are you prepared for the responsibilities of
-                            adopting this pet?
+                            Готовы ли вы взять на себя ответственность за
+                            усыновление этого питомца?
                           </Label>
                         </div>
                       </div>
@@ -435,22 +437,20 @@ const InnerAnimal: React.FC = () => {
                     {step === 3 && (
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">
-                          Review and Confirm Adoption
+                          Подтвердите решение
                         </h3>
                         <div>
-                          <h4 className="font-medium">Pet Information</h4>
-                          <p>Name: {animal.name}</p>
-                          <p>Age: {animal.age} years</p>
-                          <p>Breed: {animal.breed}</p>
+                          <h4 className="font-medium">Информация о питомце</h4>
+                          <p>Имя: {animal.name}</p>
+                          <p>Возраст: {animal.age} years</p>
+                          <p>Порода: {animal.breed}</p>
                         </div>
                         <div>
-                          <h4 className="font-medium">Your Information</h4>
-                          <p>Name: {userData?.user.adopterDetails.name}</p>
-                          <p>Email: {userData?.user.email}</p>
-                          <p>Phone: {userData?.user.adopterDetails.phone}</p>
-                          <p>
-                            Address: {userData?.user.adopterDetails.address}
-                          </p>
+                          <h4 className="font-medium">Ваша информация</h4>
+                          <p>Имя: {userData?.user.adopterDetails.name}</p>
+                          <p>Почта: {userData?.user.email}</p>
+                          <p>Телефон: {userData?.user.adopterDetails.phone}</p>
+                          <p>Адрес: {userData?.user.adopterDetails.address}</p>
                         </div>
                       </div>
                     )}
@@ -470,7 +470,7 @@ const InnerAnimal: React.FC = () => {
                       </Button>
                     ) : (
                       <Button onClick={async () => await handleAdopt()}>
-                        Confirm Adoption
+                        Подтвердить усыновление
                       </Button>
                     )}
                   </CardFooter>
