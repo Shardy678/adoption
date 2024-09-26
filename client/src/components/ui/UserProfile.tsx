@@ -18,10 +18,13 @@ const logout = () => {
 }
 
 const UserProfile = () => {
-  const { toast } = useToast()
+  const [adoptionApplications, setAdoptionApplications] = useState<Adoption[]>(
+    []
+  )
   const [updateError, setUpdateError] = useState('')
   const { user, error, adopterDetails, email, setAdopterDetails, setEmail } =
     useUserData()
+  const { toast } = useToast()
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,10 +53,6 @@ const UserProfile = () => {
     }
   }
 
-  const [adoptionApplications, setAdoptionApplications] = useState<Adoption[]>(
-    []
-  )
-
   const fetchAdoptionApplications = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -66,7 +65,10 @@ const UserProfile = () => {
         }
       )
       const applications = response.data
-      setAdoptionApplications(applications)
+      const filteredApplications = applications.filter(
+        (application: Adoption) => application.adopter._id === user?._id
+      )
+      setAdoptionApplications(filteredApplications)
     } catch (error) {
       console.error('Error fetching adoption applications:', error)
     }
