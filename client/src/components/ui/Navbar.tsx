@@ -1,8 +1,9 @@
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
-import { MenuIcon, MountainIcon } from 'lucide-react'
+import { MenuIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { PawPrint } from '@phosphor-icons/react'
 
 const NAV_LINKS = [
   { href: '/', label: 'Животные' },
@@ -45,7 +46,7 @@ export default function Navbar() {
         </SheetTrigger>
         <SheetContent side="top">
           <a href="/" className="mr-6 hidden md:flex">
-            <MountainIcon className="h-6 w-6" />
+            <PawPrint className="h-6 w-6" />
             <span className="sr-only">Acme Inc</span>
           </a>
           <div className="grid gap-2 py-6">
@@ -63,7 +64,7 @@ export default function Navbar() {
         </SheetContent>
       </Sheet>
       <a href="#" className="mr-6 hidden md:flex">
-        <MountainIcon className="h-6 w-6" />
+        <PawPrint className="h-6 w-6" />
         <span className="sr-only">Acme Inc</span>
       </a>
       <nav className="ml-auto hidden md:flex gap-6">
