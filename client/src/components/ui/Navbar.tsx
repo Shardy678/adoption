@@ -75,7 +75,7 @@ export default function Navbar() {
           AUTH_LINKS.map((link) => (
             <NavLink key={link.label} href={link.href} label={link.label} />
           ))}
-        {isLoggedIn && <NavLink key="Profile" href="/user" label="Profile" />}
+        {isLoggedIn && <NavLink key="Profile" href="/user" label="Профиль" />}
       </nav>
     </header>
   )

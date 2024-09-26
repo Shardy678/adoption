@@ -85,18 +85,22 @@ export default function Admin() {
   }
 
   const stats = [
-    { title: 'Total Pets Available', value: getTotalPets(), icon: Dog },
+    { title: 'Всего животных доступно', value: getTotalPets(), icon: Dog },
     {
-      title: 'Adoptions Completed',
+      title: 'Усыновлений завершено',
       value: getAdoptionsCompleted(),
       icon: Users,
     },
     {
-      title: 'Pending Adoptions',
+      title: 'Заявок в ожидании',
       value: getPendingAdoptions(),
       icon: FileText,
     },
-    { title: 'New Pets Added (last 30 days)', value: getNewPets(), icon: Cat },
+    {
+      title: 'Новых животных добавлено (за последние 30 дней)',
+      value: getNewPets(),
+      icon: Cat,
+    },
   ]
 
   const filteredPets = animals?.filter(
